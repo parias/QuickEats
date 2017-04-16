@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+   </head>
+
+   <header>
+      <div class="col-md-12 text-center">
+         <ul class="nav nav-pills ">
+            <li role="presentation"><a href="/home">Home</a></li>
+            <li role="presentation"><a href="/menu">Menu</a></li>
+            <li role="presentation"><a href="/orders">Orders</a></li>
+            <li role="presentation"><a href="/order">Current Order</a></li>
+         </ul>
+      </div>
+   </header>
+
+   <body>
+      {% block body %}{% endblock %}
+
+      <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+   </body>
+
+</html>

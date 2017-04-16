@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block body %}
+<head>
+	<title>Menu</title>
+</head>
+
+<body>
+   <table>
+      <tr>
+         <th>Menu Item</th>
+         <th>Description</th>
+         <th>Cost</th>
+      </tr>
+   	{% for key, value in menu.items() %}
+		<tr>
+			<th>{{ key }}</th>
+			<th>{{ value[0] }}</th>
+			<th>{{ value[1] }}</th>
+		</tr>
+		{% endfor %}
+   </table>
+</body>
+{% endblock %}
+</html>

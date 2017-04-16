@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block body %}
+<head>
+   <title>Orders</title>
+</head>
+
+<body>
+   {% if orders %}
+   <table>
+      <tr>
+         <th>Menu Item</th>
+         <th>Cost</th>
+         <th>Purchase</th>
+      </tr>
+      {% for key, value in orders.items() %}
+      <tr>
+         <th><{{ value[0] }}</th>
+         <th>{{ value[2] }}</th>
+         <th><a class="btn btn-primary" href="/purchase/{{value[0]}}">Buy</a></th>
+      </tr>
+      {% endfor %}
+   </table> 
+   {% else %}
+   You have no orders! 
+   {% endif %}
+</body>
+
+{% endblock %}
+</html>
