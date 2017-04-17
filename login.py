@@ -6,7 +6,7 @@ import bcrypt
 app = Flask(__name__)
 app.secret_key = 'helloworld'
 app.config['TEMPLATES_AUTO_RELOAD'] = True 
-    
+
 app.config['MONGO_DBNAME'] = 'quickeats'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/quickeats'
 
@@ -21,8 +21,8 @@ def index():
 @app.route('/login', methods=['POST'])
 def login():
     users = mongo.db.users
-    login_user = users.find_one({'name':request.form['username']})
-    
+    login_user = users.find_one({'username':request.form['username']})
+
     if login_user:
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
             session['username'] = request.form['username']
@@ -36,17 +36,53 @@ def login():
 def register():
     if request.method == 'POST':
         users = mongo.db.users
-        existing_user = users.find_one({'name':request.form['username']})
+        existing_user = users.find_one({'username':request.form['username']})
 
         if existing_user is None:
             hashpass = bcrypt.hashpw(request.form['pass'].encode('utf-8'), bcrypt.gensalt())
-            users.insert({
-                'username':request.form['username'], 
-                'password':hashpass, 
-                'address':request.form['address'], 
-                'city':request.form['city'], 
-                'state':request.form['state']
-            })
+
+            # User Creation by user_type
+            if request.form['user_type'] == 'patron':
+                users.insert({
+                    'username':request.form['username'], 
+                    'password':hashpass, 
+                    'address':request.form['address'], 
+                    'city':request.form['city'], 
+                    'state':request.form['state'],
+                    'user_type':request.form['user_type']
+                    })
+            elif request.form['user_type'] == 'captain':
+                users.insert({
+                    'username':request.form['username'], 
+                    'password':hashpass, 
+                    'restaurant':request.form['restaurant'],
+                    'user_type':request.form['user_type']
+                    })
+            elif request.form['user_type'] == 'buddy':
+                users.insert({
+                    'username':request.form['username'], 
+                    'password':hashpass, 
+                    'restaurant':request.form['restaurant'],
+                    'user_type':request.form['user_type']
+                    })
+            elif request.form['user_type'] == 'chauffeur':
+                users.insert({
+                    'username':request.form['username'], 
+                    'password':hashpass, 
+                    'user_type':request.form['user_type']
+                    })
+            elif request.form['user_type'] == 'nerd':
+                users.insert({
+                    'username':request.form['username'],
+                    'password':hashpass,
+                    'user_type':request.form['user_type']
+                    })
+            else: 
+                users.insert({
+                    'username':request.form['username'],
+                    'password':hashpass,
+                    'user_type':request.form['user_type']
+                    })
             session['username'] = request.form['username']
             return redirect(url_for('home'))
 
@@ -83,8 +119,8 @@ def orders():
                     item['address'],
                     item['cost'],
                     item['completed']
-                ]})
-        #return jsonify(orders)
+                    ]})
+                #return jsonify(orders)
         return render_template('orders.html',orders=orders)
     else: 
         #TODO Make Prettier, can use flash() and redirect maybe
@@ -118,7 +154,7 @@ def cart():
     cart = []
     """
     if session:
-        
+
         local_cart = session['cart']
         temp_cart = Counter(local_cart)
         cart = {}
@@ -131,9 +167,9 @@ def cart():
                         item['cost'], 
                         item['img'],
                         count
-                    ]})
-        
-        #return jsonify(cart)
+                        ]})
+
+                    #return jsonify(cart)
         return render_template('cart.html', cart=cart)
 
     else:

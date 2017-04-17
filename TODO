@@ -2,9 +2,12 @@
    - at the current moment it is showing Chinese characters (probably object representation)
 
 2) Order
-   - List of entrees + quantity 
+   #- List of entrees
+   - Quantity 
+   - If order has list of entrees, shows it as a list
+      ex: ['wings', 'pizza', 'ranch']   
 
-@ Need to Have Separate Logins
+#@ Need to Have Separate Logins
    - Buddy Adding Menu Items
    - Buddy Requesting Driver
    - Ads
