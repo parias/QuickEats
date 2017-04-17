@@ -14,6 +14,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def index():
+    session['user_type'] = 'lurker'
     if 'username' in session:
         return render_template('home.html')
     return render_template('index.html')
@@ -28,6 +29,7 @@ def login():
             session['username'] = request.form['username']
             session['user_type'] = mongo.db.users.find_one({'username':request.form['username']})['user_type']
             session["cart"] = []
+            return session['user_type']
             return redirect(url_for('home'))
         return 'Invalid username/password combination'
 
@@ -59,6 +61,7 @@ def register():
                     'restaurant':request.form['restaurant'],
                     'user_type':request.form['user_type']
                     })
+                session['restaurant'] = request.form['restaurant']
             elif request.form['user_type'] == 'buddy':
                 users.insert({
                     'username':request.form['username'], 
@@ -66,6 +69,7 @@ def register():
                     'restaurant':request.form['restaurant'],
                     'user_type':request.form['user_type']
                     })
+                session['restaurant'] = request.form['restaurant']
             elif request.form['user_type'] == 'chauffeur':
                 users.insert({
                     'username':request.form['username'], 
@@ -106,7 +110,7 @@ def menu():
     menu = {}
     for item in mongo.db.menu.find():
         menu.update({item['entree']:[item['description'],item['cost'], item['img'] ]})
-    return render_template('menu.html',menu=menu, user_type=session['user_type'])
+    return render_template('menu.html', menu=menu, user_type=session['user_type'])
 
 @app.route('/orders/')
 def orders():
@@ -177,6 +181,24 @@ def cart():
     else:
         return render_template('login_error.html')
 
+@app.route('/add_menu')
+def add_menu():
+    return render_template('add_item.html')
+
+@app.route('/add_item', methods=['POST'])
+def add_item():
+    if request.method == 'POST':
+        menu = mongo.db.menu
+        menu.insert({
+            'entree':request.form['entree'],
+            'description':request.form['description'],
+            'cost':request.form['cost'],
+            'img':request.form['image'],
+            'restaurant':request.form['restaurant']
+            })
+        #return redirect(url_for('menu'))
+        return 'Hello World'
+
 @app.route('/logout')
 def logout():
     session.clear()
@@ -189,3 +211,6 @@ def page_not_found(e):
 if __name__ == '__main__':
     app.jinja_env.cache = {}
     app.run(debug=True)
+
+
+

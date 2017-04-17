@@ -28,6 +28,15 @@
 		</tr>
 		{% endfor %}
    </table>
+   {% if user_type == 'buddy' %}
+   
+   <div class="col-md-12 text-center">
+      <ul class="nav nav-pills center-pills">
+         <li role="presentation"><a href="/add_menu">Add Menu Item</a></li>
+      </ul>
+   </div>   
+
+   {% endif %}
 </body>
 {% endblock %}
 </html>

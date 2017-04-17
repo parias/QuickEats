@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block body %}
+
+<head>
+   <title>Add Item</title>
+</head>
+<form method=POST action="{{ url_for('add_item') }}">   
+   "{{restaurant}}"
+   <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+         <div class="form-group">
+            <label for="exampleInputEmail1">Entree Name</label>
+            <input type="text" class="form-control" name="entree" placeholder="Entree">
+         </div>
+         <div class="form-group">
+            <label for="exampleInputEmail1">Description</label>
+            <input type="text" class="form-control" name="description" placeholder="Description">
+         </div>
+         <div class="form-group">
+            <label>Cost</label>
+            <input type="number" step="0.01" class="form-control" name="cost" placeholder="0.00">
+         </div>
+         <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" class="form-control" name="image" placeholder="http://cat.jpg">
+         </div>
+         <input type="hidden" name="restaurant" value="{{restaurant}}">
+         <button type="submit" class="btn btn-primary btn-block">Add Menu Item</button>
+      </div>
+   </div>
+</form>
+{% endblock %}
+</html>
