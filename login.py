@@ -177,6 +177,24 @@ def cart():
     else:
         return render_template('login_error.html')
 
+@app.route('/add_item')
+def add_item():
+    return render_template('add_item.html')
+
+@app.route('/process_item', methods=['POST'])
+def process_item():
+    if request.method == 'POST':
+        restaurant = mongo.db.users.find_one({'username':session['username']})['restaurant']
+        menu = mongo.db.menu
+        menu.insert({
+            'entree':request.form['entree'],
+            'description':request.form['description'],
+            'cost':request.form['cost'],
+            'img':request.form['image'],
+            'restaurant':restaurant
+        })
+        return redirect(url_for('menu'))
+
 @app.route('/logout')
 def logout():
     session.clear()

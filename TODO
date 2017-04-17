@@ -8,7 +8,7 @@
       ex: ['wings', 'pizza', 'ranch']   
 
 #@ Need to Have Separate Logins
-   - Buddy Adding Menu Items
+   # - Buddy Adding Menu Items
    - Buddy Requesting Driver
    - Ads
    - Requesting Employee Account
