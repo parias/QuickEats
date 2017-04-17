@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, render_template, url_for, request, session, redirect
+from flask import Flask, jsonify, render_template, url_for, request, session, redirect, flash
 from flask_pymongo import PyMongo
 import bcrypt
 
 app = Flask(__name__)
 app.secret_key = 'helloworld'
-
+app.config['TEMPLATES_AUTO_RELOAD'] = True 
+    
 app.config['MONGO_DBNAME'] = 'quickeats'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/quickeats'
 
@@ -92,21 +93,16 @@ def purchase(entree):
     
     # cart = session['cart']
     session['cart'].append(entree)
-    return jsonify(session['cart'])
-    #return redirect('/cart')
+    #return jsonify(session['cart'])
+    return redirect('/menu/')
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
-
 if __name__ == '__main__':
+    app.jinja_env.cache = {}
     app.run(debug=True)
-
-
-
-
-
 
 
 

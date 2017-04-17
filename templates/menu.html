@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 {% extends "layout.html" %}
-{% block body %}
 <head>
 	<title>Menu</title>
 </head>
 
 <body>
+   {% block body %}
    <table>
       <tr>
          <th>Menu Item</th>
@@ -20,6 +20,6 @@
 		</tr>
 		{% endfor %}
    </table>
+   {% endblock %}
 </body>
-{% endblock %}
 </html>
