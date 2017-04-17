@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template, url_for, request, session, redirect, flash
+from collections import Counter
 from flask_pymongo import PyMongo
 import bcrypt
 
@@ -14,7 +15,6 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        #return 'You are logged in as ' + session['username']
         return render_template('home.html')
     return render_template('index.html')
 
@@ -26,7 +26,7 @@ def login():
     if login_user:
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
             session['username'] = request.form['username']
-            session['cart'] = []
+            session["cart"] = []
             return redirect(url_for('home'))
         return 'Invalid username/password combination'
 
@@ -56,7 +56,10 @@ def register():
 
 @app.route('/home/')
 def home(username=None):
-    return render_template('home.html', username=session['username'])
+    if session:
+        return render_template('home.html', username=session['username'])
+    else:
+        return redirect('/')
 
 @app.route('/menu/')
 def menu():
@@ -70,16 +73,22 @@ def menu():
 @app.route('/orders/')
 def orders():
     # current_user = session['username']
-    orders = {}
-    for item in mongo.db.orders.find({'username':session['username']}):
-        orders.update({
-            item['username']: [
-                item['entree'],
-                item['address'],
-                item['cost'],
-                item['completed']
-            ]})
-    return render_template('orders.html',orders=orders)
+    if session:
+        orders = {}
+        for item in mongo.db.orders.find({'username':session['username']}):
+            order_id = str(item['_id'])
+            orders.update({
+                order_id: [
+                    item['entree'],
+                    item['address'],
+                    item['cost'],
+                    item['completed']
+                ]})
+        #return jsonify(orders)
+        return render_template('orders.html',orders=orders)
+    else: 
+        #TODO Make Prettier, can use flash() and redirect maybe
+        return render_template('login_error.html')
 
 @app.route('/purchase/<string:entree>')
 def purchase(entree):
@@ -88,13 +97,46 @@ def purchase(entree):
     Cart is a list of items picked from menu in session['cart']
     cart = []
     """
-    if 'cart' not in session:
-        session['cart'] = []
-    
-    # cart = session['cart']
-    session['cart'].append(entree)
+    cart = session['cart']
+    cart.append(entree)
+
+    session['cart'] = cart
     #return jsonify(session['cart'])
     return redirect('/menu/')
+
+@app.route('/cart/')
+def cart():
+    """
+    Cart is implemented using Session
+    Cart is a list of items picked from menu in session['cart']
+    cart = []
+    """
+    if session:
+        
+        local_cart = session['cart']
+        temp_cart = Counter(local_cart)
+        cart = {}
+
+        for entree, count in temp_cart.items():
+            for item in mongo.db.menu.find({'entree':entree}):
+                cart.update({
+                    item['entree']:[
+                        item['description'],
+                        item['cost'], 
+                        item['img'],
+                        count
+                    ]})
+        
+        #return jsonify(cart)
+        return render_template('cart.html', cart=cart)
+
+    else:
+        return render_template('login_error.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -103,8 +145,6 @@ def page_not_found(e):
 if __name__ == '__main__':
     app.jinja_env.cache = {}
     app.run(debug=True)
-
-
 
 
 

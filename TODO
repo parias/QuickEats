@@ -1,0 +1,10 @@
+1) If no Cart, need to alert empty cart
+   - at the current moment it is showing Chinese characters (probably object representation)
+2) Order
+   - List of entrees + quantity 
+3) Buddy Adding Menu Items
+4) Buddy Requesting Driver
+5) Ads
+6) Requesting Employee Account
+7) Payment
+8) ...

@@ -13,18 +13,18 @@
             <th>Description</th>
             <th>Cost</th>
             <th>Picture</th>
-            <th>Purchase</th>
+            <th>Quantity</th>
          </tr>
       </thead>
-   	{% for key, value in menu.items() %}
+   	{% for key, value in cart.items() %}
 		<tr id="tr-id-1" class="tr-class-1">
 			<td id="td-id-1" class="td-class-1">{{ key }}</td>
 			<td>{{ value[0] }}</td>
          <td>{{ value[1] }}</td>
          <td>
-            <img border="0"  src="../static/img/{{value[2]}}" width="100" height="100">   
+            <img border="0"  src="../static/img/{{value[2]}}" width="101" height="100">   
          </td>
-         <td><a class="btn btn-primary" href="/purchase/{{key}}" onClick="alert('{{key}} has added to your cart')">Buy</a></td>
+         <td>{{value[3]}}</td>
 		</tr>
 		{% endfor %}
    </table>
