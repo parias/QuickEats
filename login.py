@@ -97,12 +97,18 @@ def purchase(entree):
     Cart is a list of items picked from menu in session['cart']
     cart = []
     """
-    cart = session['cart']
-    cart.append(entree)
+    if session:
+        cart = session['cart']
+        cart.append(entree)
 
-    session['cart'] = cart
-    #return jsonify(session['cart'])
-    return redirect('/menu/')
+        session['cart'] = cart
+        #return jsonify(session['cart'])
+        return redirect('/menu/')
+    else:
+        cart = []
+        cart.append(entree)
+        session['cart'] = cart
+        return redirect('/menu/')
 
 @app.route('/cart/')
 def cart():
