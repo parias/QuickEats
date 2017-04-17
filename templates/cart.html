@@ -16,6 +16,7 @@
 </head>
 
 <body class="container">
+   {% if cart %}
    <table data-toggle="table">
       <thead>
          <tr>
@@ -38,6 +39,11 @@
 		</tr>
 		{% endfor %}
    </table>
+   {% else %}
+   <table data-toggle="table">
+      <td>You Have No Items In Your Cart.</td>
+   </table>
+   {% endif %}
 </body>
 {% endblock %}
 </html>

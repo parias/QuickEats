@@ -4,37 +4,113 @@
 
 <head>
    <title>Register</title>
+
+   <style>
+.center {
+   margin: auto;
+   width: 60%;
+   padding: 10px;
+}
+   </style>
+
 </head>
 
-<div class="container">
+<form class="center">
    <div class="row">
       <div class="col-md-4 col-md-offset-4">
-         <form method=POST action="{{ url_for('register') }}">
-            <div class="form-group">
-               <label for="exampleInputEmail1">Username</label>
-               <input type="text" class="form-control" name="username" placeholder="Username">
-            </div>
-            <div class="form-group">
-               <label for="exampleInputPassword1">Password</label>
-               <input type="password" class="form-control" name="pass" placeholder="Password">
-            </div>
-            <div class="form-group">
-               <label>Address</label>
-               <input type="text" class="form-control" name="address">
-            </div>          
-            <div class="form-group">
-               <label>City</label>
-               <input type="text" class="form-control" name="city">
-            </div>
-            <div class="form-group">
-               <label>State</label>
-               <input type="text" class="form-control" name="state">
-            </div>      
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
-         </form>
-         <br>
+         <select id="myselect">
+            <option value="" selected="selected">User Type</option>
+            <option value="patron_form">Patron</option>
+            <option value="employee_form">Employee</option>
+            <option value="partner_form">Partner</option>
+         </select>
       </div>
    </div>
-</div>
+</form>
+
+<!---- THIS IS FORM 1---->
+<form name="patron_form" style="display:none" id="patron_form" method=POST action="{{ url_for('register') }}">
+   <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+         <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Username">
+         </div>
+         <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="pass" placeholder="Password">
+         </div>
+         <div class="form-group">
+            <label>Address</label>
+            <input type="text" class="form-control" name="address">
+         </div>          
+         <div class="form-group">
+            <label>City</label>
+            <input type="text" class="form-control" name="city">
+         </div>
+         <div class="form-group">
+            <label>State</label>
+            <input type="text" class="form-control" name="state">
+         </div>      
+         <button type="submit" class="btn btn-primary btn-block">Register</button>
+      </div>
+   </div>
+</form>
+
+<!---- THIS IS FORM 2---->
+<form name="partner_form" style="display:none"  id="partner_form" method=POST action="{{ url_for('register') }}">
+   <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+         <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Username">
+         </div>
+         <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="pass" placeholder="Password">
+         </div>
+        <div class="form-group">
+            <label>Restaurant</label>
+            <input type="text" class="form-control" name="restaurant">
+         </div>    
+         <button type="submit" class="btn btn-primary btn-block">Register</button>
+      </div>
+   </div>
+</form>
+
+<!---- THIS IS FORM 3---->
+<form name="employee_form" id="employee_form" style="display:none" method=POST action="{{ url_for('register') }}">
+   <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+         <div class="form-group">
+            <label for="exampleInputPassword1">Employee Type</label>
+            <br/>
+            <select name="employee_type">
+               <option value="chauffeur">Chauffeur</option>
+               <option value="investigator">Investigator</option>
+               <option value="nerd">Nerd</option>
+            </select>
+         </div>
+         <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Username">
+         </div>
+         <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="pass" placeholder="Password">
+         </div>
+         <button type="submit" class="btn btn-primary btn-block">Register</button>
+      </div>
+   </div>
+</form>
+<br>
+
+<script>
+$("#myselect").on("change", function() {
+   $("#" + $(this).val()).show().siblings().hide();
+})
+</script>
+
+
 {% endblock %}
 </html>

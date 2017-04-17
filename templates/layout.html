@@ -29,17 +29,7 @@
       </style>
    </head>
 
-   <header>
-      <div class="col-md-12 text-center">
-         <ul class="nav nav-pills center-pills">
-            <li role="presentation"><a href="/home">Home</a></li>
-            <li role="presentation"><a href="/menu">Menu</a></li>
-            <li role="presentation"><a href="/orders/">Orders</a></li>
-            <li role="presentation"><a href="/cart/">Cart</a></li>
-				<li role="presentation"><a href="/logout">Logout</a></li>
-         </ul>
-      </div>
-   </header>
+   {% extends "pillz.html" %}
 
    <body class="container">
       {% block body %}{% endblock %}
