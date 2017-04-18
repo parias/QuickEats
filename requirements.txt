@@ -9,3 +9,4 @@ MarkupSafe==1.0
 pycparser==2.17
 pymongo==3.4.0
 Werkzeug==0.12.1
+pyOpenSSL==16.2.0

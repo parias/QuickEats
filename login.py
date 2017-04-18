@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template, url_for, request, session, re
 from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
 from collections import Counter
+from OpenSSL import SSL
 import bcrypt
 
 app = Flask(__name__)
@@ -10,6 +11,11 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 app.config['MONGO_DBNAME'] = 'quickeats'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/quickeats'
+
+# Supposedly SSL
+context = SSL.Context(SSL.SSLv23_METHOD)
+context.use_privatekey_file('server.key')
+context.use_certificate_file('server.crt')
 
 mongo = PyMongo(app)
 
@@ -273,4 +279,6 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     app.jinja_env.cache = {}
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run(host='0.0.0.0',port='12344', 
+        debug = True, ssl_context=context)
