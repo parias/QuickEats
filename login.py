@@ -99,7 +99,7 @@ def register():
 
 @app.route('/home/')
 def home(username=None):
-    if session:
+    if 'username' in session:
         return render_template('home.html', username=session['username'])
     else:
         return redirect('/')
