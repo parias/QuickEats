@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, url_for, request, session, redirect, flash
-from collections import Counter
-from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from flask_pymongo import PyMongo
+from collections import Counter
 import bcrypt
 
 app = Flask(__name__)
