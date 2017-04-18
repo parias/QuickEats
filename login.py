@@ -137,6 +137,21 @@ def orders():
                     ]})
             return render_template('orders.html',orders=orders, user_type=user['user_type'])
 
+        # If Chauffeur, shows orders than need to be completed
+        if user['user_type'] == 'chauffeur':
+            orders = {}
+            for item in mongo.db.orders.find({'completed':False}):
+                order_id = str(item['_id'])
+                orders.update({
+                    order_id: [
+                        item['entree'],
+                        item['address'],
+                        item['cost'],
+                        item['restaurant'],
+                        item['completed']
+                    ]})
+            return render_template('orders.html',orders=orders, user_type=user['user_type'])
+        
         orders = {}
         for item in mongo.db.orders.find({'username':session['username']}):
             order_id = str(item['_id'])
