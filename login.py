@@ -118,8 +118,25 @@ def menu():
 
 @app.route('/orders/')
 def orders():
-    # current_user = session['username']
+    
     if 'username' in session:
+        user = mongo.db.users.find_one({'username':session['username']})
+        
+        # If Buddy, shows orders that need to be completed
+        if user['user_type'] == 'buddy':
+            orders = {}
+            for item in mongo.db.orders.find({'restaurant':user['restaurant'], 'completed':False}):
+                order_id = str(item['_id'])
+                orders.update({
+                    order_id: [
+                        item['entree'],
+                        item['address'],
+                        item['cost'],
+                        item['restaurant'],
+                        item['completed']
+                    ]})
+            return render_template('orders.html',orders=orders, user_type=user['user_type'])
+
         orders = {}
         for item in mongo.db.orders.find({'username':session['username']}):
             order_id = str(item['_id'])
@@ -202,6 +219,12 @@ def process_item():
             'restaurant':restaurant
         })
         return redirect(url_for('menu'))
+
+
+@app.route('/deliver/<string:object_id>')
+def deliver(object_id):
+    return object_id
+
 
 @app.route('/logout')
 def logout():
