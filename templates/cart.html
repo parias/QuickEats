@@ -8,6 +8,11 @@
       .container{
          width: 60%;
       }
+      .center{
+         margin: auto;
+         width: 50%;
+         padding: 10px;
+      }
       td, th {
          text-align: center;
       }
@@ -16,6 +21,7 @@
 </head>
 
 <body class="container">
+   total is {{total}}
    {% if cart %}
    <table data-toggle="table">
       <thead>
@@ -33,7 +39,7 @@
 			<td align="center">{{ value[0] }}</td>
          <td align="center">{{ value[1] }}</td>
          <td align="center">
-            <img border="0"  src="../static/img/{{value[2]}}" width="101" height="100">   
+            <img border="0"  src="{{value[2]}}" width="101" height="100">   
          </td>
          <td align="center">{{value[3]}}</td>
 		</tr>
@@ -44,6 +50,9 @@
       <td>You Have No Items In Your Cart.</td>
    </table>
    {% endif %}
+   <br/>
+   <center><a class="btn btn-primary" href="/pay/{{total}}">Complete Order</a></center>
+
 </body>
 {% endblock %}
 </html>

@@ -141,7 +141,7 @@ def orders():
         # If Chauffeur, shows orders than need to be completed
         if user['user_type'] == 'chauffeur':
             orders = {}
-            for item in mongo.db.orders.find({'completed':False}):
+            for item in mongo.db.orders.find({'completed':False, 'requested_delivery':True}):
                 order_id = str(item['_id'])
                 orders.update({
                     order_id: [
@@ -201,9 +201,11 @@ def cart():
         local_cart = session['cart']
         temp_cart = Counter(local_cart)
         cart = {}
-
+        total = 0.0
+        
         for entree, count in temp_cart.items():
             for item in mongo.db.menu.find({'entree':entree}):
+                total = total + float(item['cost']) * float(count)
                 cart.update({
                     item['entree']:[
                         item['description'],
@@ -212,8 +214,7 @@ def cart():
                         count
                         ]})
 
-                    #return jsonify(cart)
-        return render_template('cart.html', cart=cart)
+        return render_template('cart.html', cart=cart, total=total)
 
     else:
         return render_template('login_error.html')
@@ -240,13 +241,19 @@ def process_item():
 @app.route('/deliver/<string:object_id>')
 def deliver(object_id):
     object_id = ObjectId(object_id)
-    return object_id
+    mongo.db.orders.update({'_id':object_id}, {"$set":{'requested_delivery':True}})
+    return redirect('/orders/')
 
 @app.route('/complete_order/<string:object_id>')
 def complete_order(object_id):
     object_id = ObjectId(object_id)
     mongo.db.orders.update({'_id':object_id}, {"$set":{'completed':True}})
     return redirect('/orders/')
+
+@app.route('/pay/<float:total>')
+def pay(total):
+    #return str(total)
+    return render_template('pay.html', total=total)
 
 @app.route('/logout')
 def logout():
