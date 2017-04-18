@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, url_for, request, session, redirect, flash
 from collections import Counter
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 import bcrypt
 
 app = Flask(__name__)
@@ -238,8 +239,14 @@ def process_item():
 
 @app.route('/deliver/<string:object_id>')
 def deliver(object_id):
+    object_id = ObjectId(object_id)
     return object_id
 
+@app.route('/complete_order/<string:object_id>')
+def complete_order(object_id):
+    object_id = ObjectId(object_id)
+    mongo.db.orders.update({'_id':object_id}, {"$set":{'completed':True}})
+    return redirect('/orders/')
 
 @app.route('/logout')
 def logout():

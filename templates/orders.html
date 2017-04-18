@@ -16,8 +16,9 @@
 
 <body>
    {% if orders %}
-   {% if user_type == 'buddy' %}
 
+   <!-- If Buddy, shows uncompleted order of Restaurant-->
+   {% if user_type == 'buddy' %}
    <table data-toggle="table">
       <thead>
          <tr>
@@ -34,6 +35,8 @@
       </tr>
       {% endfor %}
    </table> 
+
+   <!-- If Chauffeur, shows undeliverd orders-->
    {% elif user_type == 'chauffeur' %}
    <table data-toggle="table">
       <thead>
@@ -47,11 +50,12 @@
       <tr id="tr-id-1" class="tr-class-1">
          <td id="td-id-1" class="td-class-1">{{ value[0] }}</td>
          <td>{{ value[2] }}</td>
-         <td><a class="btn btn-primary" href="/deliver/{{key}}" onClick="alert('{{value[0]}} delivery has been completed')">Complete</a></td>
+         <td><a class="btn btn-primary" href="/complete_order/{{key}}" onClick="alert('{{key}} delivery has been completed')">Complete</a></td>
       </tr>
       {% endfor %}
    </table> 
    {% else %}
+   <!-- Orders of Everyone else -->
    <table data-toggle="table">
       <thead>
          <tr>
