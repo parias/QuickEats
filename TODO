@@ -1,20 +1,21 @@
 # 1) If no Cart, need to alert empty cart
-   - at the current moment it is showing Chinese characters (probably object representation)
+   # - at the current moment it is showing Chinese characters (probably object representation)
 
 2) Order
    #- List of entrees
-   - Quantity 
+   # - Quantity 
    - If order has list of entrees, shows it as a list
       ex: ['wings', 'pizza', 'ranch']   
 
 #@ Need to Have Separate Logins
    # - Buddy Adding Menu Items
-   - Buddy Requesting Driver
+   # - Buddy Requesting Driver
    - Ads
    - Requesting Employee Account
 
-7) Payment
+# 7) Payment
 
-8) ...
+8) Maybe Remove Captain
+   - Captain doesnt need to do anything, Buddy is 'scheduled' when logged in
 
-# 9) Github SSH push
+9) Github SSH push
