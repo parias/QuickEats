@@ -27,7 +27,10 @@ def login():
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
             session['username'] = request.form['username']
             session['user_type'] = mongo.db.users.find_one({'username':request.form['username']})['user_type']
+            user_type = session['user_type']
             session["cart"] = []
+            if user_type == 'chauffeur':
+                mongo.db.users.update({'username':session['username']}, {"$set":{'on_clock':True}})
             return redirect(url_for('home'))
         return 'Invalid username/password combination'
 
@@ -70,7 +73,8 @@ def register():
                 users.insert({
                     'username':request.form['username'], 
                     'password':hashpass, 
-                    'user_type':request.form['user_type']
+                    'user_type':request.form['user_type'],
+                    'on_clock':True
                     })
             elif request.form['user_type'] == 'nerd':
                 users.insert({
@@ -201,6 +205,12 @@ def process_item():
 
 @app.route('/logout')
 def logout():
+
+    if 'user_type' in session:
+        #return session['user_type']
+        if session['user_type'] == 'chauffeur':
+            mongo.db.users.update({'username':session['username']}, {"$set":{'on_clock':False}})
+
     session.clear()
     return redirect('/')
 
