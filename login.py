@@ -29,7 +29,7 @@ def login():
             session['username'] = request.form['username']
             session['user_type'] = mongo.db.users.find_one({'username':request.form['username']})['user_type']
             user_type = session['user_type']
-            session["cart"] = []
+            session['cart'] = []
             if user_type == 'chauffeur':
                 mongo.db.users.update({'username':session['username']}, {"$set":{'on_clock':True}})
             return redirect(url_for('home'))
@@ -91,6 +91,7 @@ def register():
                     })
             session['username'] = request.form['username']
             session['user_type'] = request.form['user_type']
+            session['cart'] = []
             return redirect(url_for('home'))
 
         return 'That username already exists!'
