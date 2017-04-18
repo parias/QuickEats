@@ -103,15 +103,19 @@ def home(username=None):
 def menu():
     #menu = mongo.db.menu.find()
     #return render_template('menu.html', menu=menu)
+
     menu = {}
     for item in mongo.db.menu.find():
         menu.update({item['entree']:[item['description'],item['cost'], item['img'] ]})
-    return render_template('menu.html',menu=menu, user_type=session['user_type'])
+    if 'user_type' in session:
+        return render_template('menu.html',menu=menu, user_type=session['user_type'])
+    else:
+        return render_template('menu.html',menu=menu)
 
 @app.route('/orders/')
 def orders():
     # current_user = session['username']
-    if session:
+    if 'username' in session:
         orders = {}
         for item in mongo.db.orders.find({'username':session['username']}):
             order_id = str(item['_id'])
