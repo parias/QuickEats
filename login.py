@@ -302,9 +302,25 @@ def process():
                 'paid':True
                 })
 
-    #return cart
-    return redirect('/orders/')
+        return redirect('/orders/')
+    else:
+        # Anonymous Customer
+        # Need to have user add Address
+        for key, value in cart.items():
+            orders.insert({
+                'username':'anonymous',
+                'entree':key,
+                'address':'anonymous', 
+                'cost':value['cost'],
+                'count':value['count'],
+                'restaurant':value['restaurant'],
+                'completed':False,
+                'requested_delivery':False,
+                'paid':True
+                })
+        return redirect('/menu/')
 
+    return 'An Error Has Occured - Pablo'
 
 @app.route('/logout')
 def logout():
