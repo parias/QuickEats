@@ -50,7 +50,13 @@
    </table>
    {% endif %}
    <br/>
-   <center><a class="btn btn-primary" href="/pay/{{total}}">Complete Order</a></center>
+   <!--<center><a class="btn btn-primary" href="/pay/{{total}}">Complete Order</a></center>
+   -->
+   <form method=POST action="{{ url_for('pay') }}">
+      <input type="hidden" name="total" value="{{total}}"/>
+      <input type="hidden" name="cart" value="{{cart}}"/>
+      <center><button type="submit" class="btn btn-primary">Pay</button></center>
+   <form>
 
 </body>
 {% endblock %}

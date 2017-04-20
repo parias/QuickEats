@@ -12,18 +12,15 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['MONGO_DBNAME'] = 'quickeats'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/quickeats'
 
-# Supposedly SSL
-context = SSL.Context(SSL.SSLv23_METHOD)
-context.use_privatekey_file('server.key')
-context.use_certificate_file('server.crt')
-
 mongo = PyMongo(app)
+
 
 @app.route('/')
 def index():
     if 'username' in session:
         return render_template('home.html')
     return render_template('index.html')
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -42,6 +39,7 @@ def login():
         return 'Invalid username/password combination'
 
     return 'Invalid username/password combination'
+
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -95,6 +93,8 @@ def register():
                     'password':hashpass,
                     'user_type':request.form['user_type']
                     })
+            
+            # Create Session variables when Registering
             session['username'] = request.form['username']
             session['user_type'] = request.form['user_type']
             session['cart'] = []
@@ -104,6 +104,7 @@ def register():
 
     return render_template('register.html')
 
+
 @app.route('/home/')
 def home(username=None):
     if 'username' in session:
@@ -111,25 +112,25 @@ def home(username=None):
     else:
         return redirect('/')
 
+
 @app.route('/menu/')
 def menu():
-    #menu = mongo.db.menu.find()
-    #return render_template('menu.html', menu=menu)
-
     menu = {}
     for item in mongo.db.menu.find():
         menu.update({item['entree']:[item['description'],item['cost'], item['img'] ]})
+
+    # If Buddy, then adds 'Add Menu Item' button 
     if 'user_type' in session:
         return render_template('menu.html',menu=menu, user_type=session['user_type'])
     else:
         return render_template('menu.html',menu=menu)
 
+
 @app.route('/orders/')
 def orders():
-    
     if 'username' in session:
         user = mongo.db.users.find_one({'username':session['username']})
-        
+
         # If Buddy, shows orders that need to be completed
         if user['user_type'] == 'buddy':
             orders = {}
@@ -142,7 +143,8 @@ def orders():
                         item['cost'],
                         item['restaurant'],
                         item['completed']
-                    ]})
+                        ]})
+                
             return render_template('orders.html',orders=orders, user_type=user['user_type'])
 
         # If Chauffeur, shows orders than need to be completed
@@ -157,9 +159,11 @@ def orders():
                         item['cost'],
                         item['restaurant'],
                         item['completed']
-                    ]})
+                        ]})
+                    
             return render_template('orders.html',orders=orders, user_type=user['user_type'])
-        
+
+        # Everyone else, just shows orders
         orders = {}
         for item in mongo.db.orders.find({'username':session['username']}):
             order_id = str(item['_id'])
@@ -176,6 +180,7 @@ def orders():
         #TODO Make Prettier, can use flash() and redirect maybe
         return render_template('login_error.html')
 
+
 @app.route('/purchase/<string:entree>')
 def purchase(entree):
     """
@@ -186,15 +191,14 @@ def purchase(entree):
     if session:
         cart = session['cart']
         cart.append(entree)
-
         session['cart'] = cart
-        #return jsonify(session['cart'])
         return redirect('/menu/')
     else:
         cart = []
         cart.append(entree)
         session['cart'] = cart
         return redirect('/menu/')
+
 
 @app.route('/cart/')
 def cart():
@@ -209,7 +213,7 @@ def cart():
         temp_cart = Counter(local_cart)
         cart = {}
         total = 0.0
-        
+
         for entree, count in temp_cart.items():
             for item in mongo.db.menu.find({'entree':entree}):
                 total = total + float(item['cost']) * float(count)
@@ -220,7 +224,7 @@ def cart():
                         item['img'],
                         count
                         ]})
-
+        
         return render_template('cart.html', cart=cart, total=total)
 
     else:
@@ -228,7 +232,9 @@ def cart():
 
 @app.route('/add_item')
 def add_item():
+    # Add Menu Item (Buddy)
     return render_template('add_item.html')
+
 
 @app.route('/process_item', methods=['POST'])
 def process_item():
@@ -241,7 +247,7 @@ def process_item():
             'cost':request.form['cost'],
             'img':request.form['image'],
             'restaurant':restaurant
-        })
+            })
         return redirect(url_for('menu'))
 
 
@@ -251,34 +257,38 @@ def deliver(object_id):
     mongo.db.orders.update({'_id':object_id}, {"$set":{'requested_delivery':True}})
     return redirect('/orders/')
 
+
 @app.route('/complete_order/<string:object_id>')
 def complete_order(object_id):
     object_id = ObjectId(object_id)
     mongo.db.orders.update({'_id':object_id}, {"$set":{'completed':True}})
     return redirect('/orders/')
 
-@app.route('/pay/<float:total>')
-def pay(total):
-    #return str(total)
+
+@app.route('/pay/', methods=['POST'])
+def pay():
+    output = [request.form['total'], request.form['cart']]
+    return jsonify(output)
     return render_template('pay.html', total=total)
+
 
 @app.route('/logout')
 def logout():
-
     if 'user_type' in session:
-        #return session['user_type']
+        # If Chauffeur, Chauffeur if 'off the clock'
         if session['user_type'] == 'chauffeur':
             mongo.db.users.update({'username':session['username']}, {"$set":{'on_clock':False}})
-
     session.clear()
     return redirect('/')
+
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
+
 if __name__ == '__main__':
     app.jinja_env.cache = {}
-    # app.run(debug=True)
-    app.run(host='0.0.0.0',port='12344', 
-        debug = True, ssl_context=context)
+    # SSL Connection
+    context = ('server.crt', 'server.key')
+    app.run(host='127.0.0.1', port='5000', debug=True, ssl_context='adhoc')

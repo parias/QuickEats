@@ -13,13 +13,23 @@
    - Ads
    - Requesting Employee Account
 
-# 7) Payment
+7) Payment
 
 8) Maybe Remove Captain
    - Captain doesnt need to do anything, Buddy is 'scheduled' when logged in
 
 9) Add User Zip Code
-   - Can search for restaurants/menu items based on Zip Code
+   - Add search for restaurants/menu items based on Zip Code
+
+10) Better Home Page
+
+
+extra?
+   11) Add Classes, Tables for Objects, Functions?
+      - Restaurant, with Resturant ID for Buddies
+      - Food Items have Restaurant ID added
+      - Current Moment, Restaurant is just restaurant Name: enough?
+      - ...
 
 Random:
    - Github SSH push
