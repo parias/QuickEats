@@ -6,6 +6,7 @@
    # - Quantity 
    - If order has list of entrees, shows it as a list
       ex: ['wings', 'pizza', 'ranch']   
+   - Need Address for Anonymoust Ordering
 
 #@ Need to Have Separate Logins
    # - Buddy Adding Menu Items
@@ -23,13 +24,13 @@
 
 10) Better Home Page
 
+11) Add Classes, Tables for Objects, Functions?
+   - Restaurant, with Resturant ID for Buddies
+   - Food Items have Restaurant ID added
+   - Current Moment, Restaurant is just restaurant Name: enough?
+   - ...
 
-extra?
-   11) Add Classes, Tables for Objects, Functions?
-      - Restaurant, with Resturant ID for Buddies
-      - Food Items have Restaurant ID added
-      - Current Moment, Restaurant is just restaurant Name: enough?
-      - ...
+12) Hide app.secret_key
 
 Random:
    - Github SSH push

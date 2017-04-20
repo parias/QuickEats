@@ -279,8 +279,8 @@ def pay():
 
 @app.route('/process', methods=['POST'])
 def process():
+    # Converts to Dict.
     cart = ast.literal_eval(request.form['cart'])
-    #return jsonify(cart)
     """
     Cart = {item key:[key:value]}
     """
