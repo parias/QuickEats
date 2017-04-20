@@ -4,6 +4,7 @@ from flask_pymongo import PyMongo
 from collections import Counter
 from OpenSSL import SSL
 import bcrypt
+import ast
 
 app = Flask(__name__)
 app.secret_key = 'helloworld'
@@ -278,8 +279,31 @@ def pay():
 
 @app.route('/process', methods=['POST'])
 def process():
-    cart = request.form['cart']
-    return cart
+    cart = ast.literal_eval(request.form['cart'])
+    #return jsonify(cart)
+    """
+    Cart = {item key:[key:value]}
+    """
+    orders = mongo.db.orders
+
+    if 'username' in session:
+        user = mongo.db.users.find_one({'username': session['username']})
+        
+        for key, value in cart.items():
+            orders.insert({
+                'username':session['username'],
+                'entree':key,
+                'address':user['address'], 
+                'cost':value['cost'],
+                'count':value['count'],
+                'restaurant':value['restaurant'],
+                'completed':False,
+                'requested_delivery':False,
+                'paid':True
+                })
+
+    #return cart
+    return redirect('/orders/')
 
 
 @app.route('/logout')
