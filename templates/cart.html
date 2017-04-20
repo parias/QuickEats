@@ -35,12 +35,12 @@
    	{% for key, value in cart.items() %}
 		<tr id="tr-id-1" class="tr-class-1">
 			<td id="td-id-1" class="td-class-1" align="center">{{ key }}</td>
-			<td align="center">{{ value[0] }}</td>
-         <td align="center">{{ value[1] }}</td>
+			<td align="center">{{ value['description'] }}</td>
+         <td align="center">{{ value['cost'] }}</td>
          <td align="center">
-            <img border="0"  src="{{value[2]}}" width="101" height="100">   
+            <img border="0"  src="{{value['image']}}" width="101" height="100">   
          </td>
-         <td align="center">{{value[3]}}</td>
+         <td align="center">{{value['count']}}</td>
 		</tr>
 		{% endfor %}
    </table>

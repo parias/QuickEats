@@ -218,12 +218,16 @@ def cart():
             for item in mongo.db.menu.find({'entree':entree}):
                 total = total + float(item['cost']) * float(count)
                 cart.update({
-                    item['entree']:[
-                        item['description'],
-                        item['cost'], 
-                        item['img'],
-                        count
-                        ]})
+                    item['entree']:{
+                        'description': item['description'],
+                        'cost': item['cost'], 
+                        'image': item['img'],
+                        'count': count,
+                        'restaurant': item['restaurant']
+                        # Need to add zip to cart maybe?
+                        #{'zip': item['zip']}
+                        }
+                    })
         
         return render_template('cart.html', cart=cart, total=total)
 
@@ -267,9 +271,15 @@ def complete_order(object_id):
 
 @app.route('/pay/', methods=['POST'])
 def pay():
-    output = [request.form['total'], request.form['cart']]
-    return jsonify(output)
-    return render_template('pay.html', total=total)
+    #output = [request.form['total'], request.form['cart']]
+    #return jsonify(output)
+    return render_template('pay.html', total=request.form['total'], cart=request.form['cart'])
+
+
+@app.route('/process', methods=['POST'])
+def process():
+    cart = request.form['cart']
+    return cart
 
 
 @app.route('/logout')

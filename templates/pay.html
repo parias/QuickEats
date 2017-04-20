@@ -29,12 +29,13 @@
          <div class="card-wrapper"></div>
 
          <div class="form-container active">
-            <form method=POST action="">
+            <form method=POST action="{{url_for('process')}}">
                <input placeholder="Card number" type="tel" name="number">
                <input placeholder="Full name" type="text" name="name">
                <input placeholder="MM/YY" type="tel" name="expiry">
                <input placeholder="CVC" type="number" name="cvc">
                <br/>
+               <input type="hidden" name="cart" value="{{cart}}">
                <button type="submit" class="btn btn-primary btn-block" onClick="alert('Thank You for your Order!')">Complete</button>
             </form>
          </div>
