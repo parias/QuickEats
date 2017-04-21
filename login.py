@@ -196,7 +196,7 @@ def purchase(entree):
     """
     Cart is implemented using Session
     Cart is a list of items picked from menu in session['cart']
-    cart = []
+    cart = { entree: {'description':'string', 'cost':value, etc.}}
     """
     if session:
         cart = session['cart']
@@ -215,7 +215,7 @@ def cart():
     """
     Cart is implemented using Session
     Cart is a list of items picked from menu in session['cart']
-    cart = []
+    cart = { entree: {'description':'string', 'cost':value, etc.}}
     """
     if session:
 
@@ -238,8 +238,8 @@ def cart():
                         'restaurant': item['restaurant']
                         # Need to add zip to cart maybe?
                         #{'zip': item['zip']}
-                        }
-                    })
+                    }
+                })
         
         return render_template('cart.html', cart=cart, total=total)
 
@@ -252,7 +252,7 @@ def add_item():
     return render_template('add_item.html')
 
 
-@app.route('/process_item', methods=['POST'])
+@app.route('/add_menu_item', methods=['POST'])
 def process_item():
     if request.method == 'POST':
         restaurant = mongo.db.users.find_one({'username':session['username']})['restaurant']
@@ -311,7 +311,7 @@ def process():
                 'completed':False,
                 'requested_delivery':False,
                 'paid':True
-                })
+            })
 
         return redirect('/orders/')
     else:
@@ -328,7 +328,7 @@ def process():
                 'completed':False,
                 'requested_delivery':False,
                 'paid':True
-                })
+            })
         return redirect('/menu/')
 
     return 'An Error Has Occured - Pablo'

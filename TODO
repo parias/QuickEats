@@ -6,13 +6,22 @@
    # - Quantity 
    - If order has list of entrees, shows it as a list
       ex: ['wings', 'pizza', 'ranch']   
-   - Need Address for Anonymoust Ordering
+   - Need Address for Anonymous Ordering
 
 #@ Need to Have Separate Logins
    # - Buddy Adding Menu Items
    # - Buddy Requesting Driver
-   - Ads
-   - Requesting Employee Account
+
+3) Ads
+   - Maybe put them on either side of Pills
+   - Maybe Put Text above Menu item(the ad), that puts it into their cart when clicked
+   - Maybe need to create a div for Ad that contains:
+      - Text
+      - Image
+      - Link to add_to_cart
+
+4) Requesting Employee Account
+   - Do we have to?
 
 7) Payment
 
@@ -30,7 +39,22 @@
    - Current Moment, Restaurant is just restaurant Name: enough?
    - ...
 
-12) Hide app.secret_key
+12) More variables to menu item
+   - Restaurant
+   - Zip
+ 
+   # Same for Cart
+   - Zip
+   - etc.
+
+13) Hide app.secret_key
+
+TODO for Project:
+1) Fix Diagrams:
+   - Object/Class Diagram: may be removing Captain
+2) Fix Context + Diagram 0:
+   - Proper Leveling (same input and outputs from Context to Diagram 0)
+   - May be removing Captain
 
 Random:
    - Github SSH push
