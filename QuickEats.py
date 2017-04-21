@@ -3,6 +3,7 @@ from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
 from collections import Counter
 from OpenSSL import SSL
+import pycard
 import bcrypt
 import ast
 
@@ -306,6 +307,13 @@ def pay():
 def process():
     # Converts to Dict.
     cart = ast.literal_eval(request.form['cart'])
+    name = request.form['name']
+    cc_num = request.form['number']
+    expiration = request.form['expiry'].split('/')
+    cvc = request.form['cvc']
+
+    if name == '' or cc_num == '' or expiration == None or cvc == '': 
+        return 'Please enter valid Credit Card Information'
     """
     Cart = {item key:[key:value]}
     """
@@ -363,7 +371,8 @@ def messages():
             })
         return render_template('messages.html',messages=messages)
     else:
-        return 'You do not have any messages'
+        # Only Patrons Have messages;To view order updates
+        return render_template('messages.html', messages=None)
 
 
 @app.route('/remove_message/<string:object_id>')
