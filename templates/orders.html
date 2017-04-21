@@ -42,14 +42,14 @@
       <thead>
          <tr>
             <th>Menu Item</th>
-            <th>Cost</th>
+            <th>Address</th>
             <th>Prepare</th>
          </tr>
       </thead>
       {% for key, value in orders.items() %}
       <tr id="tr-id-1" class="tr-class-1">
          <td id="td-id-1" class="td-class-1">{{ value['entree'] }}</td>
-         <td>{{ value['cost'] }}</td>
+         <td>{{ value['address'] }}</td>
          <td><a class="btn btn-primary" href="/complete_order/{{key}}" onClick="alert('{{value['entree']}} delivery has been completed')">Complete</a></td>
       </tr>
       {% endfor %}
