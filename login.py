@@ -253,7 +253,7 @@ def add_item():
 
 
 @app.route('/add_menu_item', methods=['POST'])
-def process_item():
+def add_menu_item():
     if request.method == 'POST':
         restaurant = mongo.db.users.find_one({'username':session['username']})['restaurant']
         menu = mongo.db.menu

@@ -6,6 +6,7 @@
    # - Quantity 
    - If order has list of entrees, shows it as a list
       ex: ['wings', 'pizza', 'ranch']   
+   - For Chauffeur, add Address column
    - Need Address for Anonymous Ordering
 
 #@ Need to Have Separate Logins
