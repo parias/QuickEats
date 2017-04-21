@@ -1,15 +1,16 @@
 {% extends "layout.html" %}
 {% block body %}
 <head>
-   <!-- This page was brought to you by-->
+
+   <!-- CC form  brought to you by -->
    <!-- https://jessepollak.github.io/card/ -->		
+   
    <title>Pay QuickEats</title>
    <meta name="viewport" content="initial-scale=1">
+   
    <!-- CSS is included through the card.js script -->
    <script src="{{ url_for('static', filename='js/card.js') }}"></script>
-</head>
-
-<body>
+   
    <style>
       .demo-container {
          width: 100%;
@@ -26,11 +27,11 @@
          margin: 10px auto;
          display: block;
       }
-   </style>
+   </style></head>
 
+<body>
    <div class="container">
       <div class="card-wrapper"></div>
-
       <div class="form-container active">
          <form method=POST action="{{url_for('process')}}">
             <input placeholder="Card number" type="tel" name="number">
@@ -40,7 +41,7 @@
             <br/>
             <input type="hidden" name="cart" value="{{cart}}">
             <center><button type="submit" class="btn btn-primary" onClick="alert('Thank You for your Order. Your Order has been Processed.')">Complete</button></center>
-         </form>
+        </form>
       </div>
    </div>
 
@@ -50,6 +51,7 @@
          container: '.card-wrapper'
       });
    </script>
+
 </body>
 
 {% endblock %}
