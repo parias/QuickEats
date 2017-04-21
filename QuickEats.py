@@ -242,7 +242,6 @@ def cart():
                 })
         
         return render_template('cart.html', cart=cart, total=total)
-
     else:
         return render_template('login_error.html')
 
@@ -271,6 +270,14 @@ def add_menu_item():
 def deliver(object_id):
     object_id = ObjectId(object_id)
     mongo.db.orders.update({'_id':object_id}, {"$set":{'requested_delivery':True}})
+
+    # Send Message to Patron that Order is requested for Delivery
+    order = mongo.db.orders.find_one({'_id':object_id})
+    mongo.db.messages.insert({
+            'username':order['username'],
+            'message':'Your Order has been requested for delivery'
+        })
+
     return redirect('/orders/')
 
 
@@ -278,6 +285,13 @@ def deliver(object_id):
 def complete_order(object_id):
     object_id = ObjectId(object_id)
     mongo.db.orders.update({'_id':object_id}, {"$set":{'completed':True}})
+
+    # Send Message to Patron that Order has been Delievered
+    order = mongo.db.orders.find_one({'_id':object_id})
+    mongo.db.messages.insert({
+            'username':order['username'],
+            'message':'Your order has been Delivered and Completed'
+        })
     return redirect('/orders/')
 
 
@@ -332,6 +346,32 @@ def process():
         return redirect('/menu/')
 
     return 'An Error Has Occured - Pablo'
+
+
+@app.route('/messages/')
+def messages():
+    if 'username' in session and \
+        session['user_type'] == 'patron':
+        user = mongo.db.users.find_one({'username':session['username']})
+        messages = {}
+        for item in mongo.db.messages.find({'username':user['username']}):
+            message_id = str(item['_id'])
+            messages.update({
+                message_id: {
+                    'message':item['message'],
+                }
+            })
+        return render_template('messages.html',messages=messages)
+    else:
+        return 'You do not have any messages'
+
+
+@app.route('/remove_message/<string:object_id>')
+def remove_message(object_id):
+    object_id = ObjectId(object_id)
+    mongo.db.messages.remove({'_id':object_id})
+    return redirect(url_for('messages'))
+
 
 @app.route('/logout')
 def logout():
