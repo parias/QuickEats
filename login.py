@@ -118,7 +118,13 @@ def home(username=None):
 def menu():
     menu = {}
     for item in mongo.db.menu.find():
-        menu.update({item['entree']:[item['description'],item['cost'], item['img'] ]})
+        menu.update({
+            item['entree']: {
+                'description':item['description'],
+                'cost': item['cost'], 
+                'img': item['img'] 
+            }
+        })
 
     # If Buddy, then adds 'Add Menu Item' button 
     if 'user_type' in session:
@@ -138,13 +144,14 @@ def orders():
             for item in mongo.db.orders.find({'restaurant':user['restaurant'], 'completed':False}):
                 order_id = str(item['_id'])
                 orders.update({
-                    order_id: [
-                        item['entree'],
-                        item['address'],
-                        item['cost'],
-                        item['restaurant'],
-                        item['completed']
-                        ]})
+                    order_id: {
+                        'entree':item['entree'],
+                        'address':item['address'],
+                        'cost':item['cost'],
+                        'restaurant':item['restaurant'],
+                        'completed':item['completed']
+                    }
+                })
                 
             return render_template('orders.html',orders=orders, user_type=user['user_type'])
 
@@ -154,13 +161,14 @@ def orders():
             for item in mongo.db.orders.find({'completed':False, 'requested_delivery':True}):
                 order_id = str(item['_id'])
                 orders.update({
-                    order_id: [
-                        item['entree'],
-                        item['address'],
-                        item['cost'],
-                        item['restaurant'],
-                        item['completed']
-                        ]})
+                    order_id: {
+                        'entree':item['entree'],
+                        'address':item['address'],
+                        'cost':item['cost'],
+                        'restaurant':item['restaurant'],
+                        'completed':item['completed']
+                    }
+                })
                     
             return render_template('orders.html',orders=orders, user_type=user['user_type'])
 
@@ -169,12 +177,13 @@ def orders():
         for item in mongo.db.orders.find({'username':session['username']}):
             order_id = str(item['_id'])
             orders.update({
-                order_id: [
-                    item['entree'],
-                    item['address'],
-                    item['cost'],
-                    item['completed']
-                    ]})
+                order_id: {
+                    'entree':item['entree'],
+                    'address':item['address'],
+                    'cost':item['cost'],
+                    'completed':item['completed']
+                }
+            })
                 #return jsonify(orders)
         return render_template('orders.html',orders=orders)
     else: 
@@ -211,6 +220,8 @@ def cart():
     if session:
 
         local_cart = session['cart']
+
+        # Turns array into Dict. {item:count}
         temp_cart = Counter(local_cart)
         cart = {}
         total = 0.0
@@ -252,7 +263,7 @@ def process_item():
             'cost':request.form['cost'],
             'img':request.form['image'],
             'restaurant':restaurant
-            })
+        })
         return redirect(url_for('menu'))
 
 
