@@ -249,6 +249,24 @@ def purchase(entree):
         return redirect('/menu/')
 
 
+@app.route('/ad_click/<string:entree>')
+def ad_click(entree):
+    """
+    Cart is implemented using Session
+    Cart is a list of items picked from menu in session['cart']
+    cart = { entree: {'description':'string', 'cost':value, etc.}}
+    """
+    if session:
+        cart = session['cart']
+        cart.append(entree)
+        session['cart'] = cart
+    else:
+        cart = []
+        cart.append(entree)
+        session['cart'] = cart
+    return redirect('#')
+
+
 @app.route('/cart/')
 def cart():
     """
