@@ -3,18 +3,10 @@
 {% block body %}
 <head>
    <title>Orders</title>
-   <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-   <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-   <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-   <script src="{{ url_for('static', filename='js/bootstrap-table.js') }}"></script>
-   <script src="{{ url_for('static', filename='js/bootstrap-table-zh-CN.js') }}"></script>
-
-   <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-   <link rel="stylesheet" href="../static/css/bootstrap-table.css">
-
 </head>
 
 <body>
+   <div class="container">
    {% if orders %}
 
    <!-- If Buddy, shows uncompleted order of Restaurant-->
@@ -54,20 +46,41 @@
       </tr>
       {% endfor %}
    </table> 
-   {% else %}
 
-   <!-- Orders of Everyone else -->
+   <!-- If Investigator, shows All Completed Orders-->
+   {% elif user_type == 'investigator' %}
+   <table data-toggle="table">
+      <thead>
+         <tr>
+            <th>Menu Item</th>
+            <th>Times Purchased</th>
+            <th>Ad</th>
+         </tr>
+      </thead>
+      {% for key, value in orders.items() %}
+      <tr id="tr-id-1" class="tr-class-1">
+         <td id="td-id-1" class="td-class-1">{{ key }}</td>
+         <td>{{ value }}</td>
+          <td><a class="btn btn-primary" href="#" onClick="alert('{{value['key']}} Ad has been created')">Complete</a></td>
+      </tr>
+      {% endfor %}
+   </table> 
+
+   <!-- Orders of Everyone else -->   
+   {% else %}
    <table data-toggle="table">
       <thead>
          <tr>
             <th>Menu Item</th>
             <th>Cost</th>
+            <th>Date Ordered</th>
          </tr>
       </thead>
       {% for key, value in orders.items() %}
       <tr id="tr-id-1" class="tr-class-1">
          <td id="td-id-1" class="td-class-1">{{ value['entree'] }}</td>
          <td>{{ value['cost'] }}</td>
+         <td>{{ value['date_time'] }}</td>
       </tr>
       {% endfor %}
    </table> 
@@ -75,6 +88,7 @@
    {% else %}
    You have no orders! 
    {% endif %}
+   </div>
 </body>
 
 {% endblock %}

@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, render_template, url_for, request, session, redirect, flash
+from collections import Counter, defaultdict
+from datetime import datetime, date, time
 from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
-from collections import Counter
 from OpenSSL import SSL
 import pycard
 import bcrypt
+import time
 import ast
 
 app = Flask(__name__)
@@ -172,17 +174,37 @@ def orders():
                 })
                     
             return render_template('orders.html',orders=orders, user_type=user['user_type'])
+        
+        # If Investigator, shows all Completed Orders
+        if user['user_type'] == 'investigator':
+            orders = defaultdict(int)
+            for item in mongo.db.orders.find({'completed':True}):
+                #order_id = str(item['_id'])
+                #orders.update({
+                #        'entree':item['entree'],
+                #        'address':item['address'],
+                #        'cost':item['cost'],
+                #        'restaurant':item['restaurant'],
+                #        'completed':item['completed']
+                #})
+                key = item['entree']
+                orders[key] += 1
+                
+            return render_template('orders.html',orders=orders, user_type=user['user_type'])
+
 
         # Everyone else, just shows orders
         orders = {}
         for item in mongo.db.orders.find({'username':session['username']}):
+            date_time = item['date'].strftime('%B %d, %Y at %I:%M %p')
             order_id = str(item['_id'])
             orders.update({
                 order_id: {
                     'entree':item['entree'],
                     'address':item['address'],
                     'cost':item['cost'],
-                    'completed':item['completed']
+                    'completed':item['completed'],
+                    'date_time':str(date_time)
                 }
             })
                 #return jsonify(orders)
@@ -332,7 +354,8 @@ def process():
                 'restaurant':value['restaurant'],
                 'completed':False,
                 'requested_delivery':False,
-                'paid':True
+                'paid':True,
+                'date':datetime.now()
             })
 
         return redirect('/orders/')
@@ -349,7 +372,8 @@ def process():
                 'restaurant':value['restaurant'],
                 'completed':False,
                 'requested_delivery':False,
-                'paid':True
+                'paid':True,
+                'date':datetime.now()
             })
         return redirect('/menu/')
 
@@ -372,7 +396,7 @@ def messages():
         return render_template('messages.html',messages=messages)
     else:
         # Only Patrons Have messages;To view order updates
-        return render_template('messages.html', messages=None)
+        return render_template('login_error.html') 
 
 
 @app.route('/remove_message/<string:object_id>')
