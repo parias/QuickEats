@@ -34,7 +34,7 @@ def login():
 
             # Adding Request Functionality
             if login_user['verified'] == False:
-                return 'Not Verified'
+                return render_template('not_verified.html')
             else:
                 session['username'] = request.form['username']
                 session['user_type'] = mongo.db.users.find_one({'username':request.form['username']})['user_type']
@@ -68,6 +68,7 @@ def register():
                     'user_type':request.form['user_type'],
                     'verified':True
                     })
+
             elif request.form['user_type'] == 'captain':
                 users.insert({
                     'username':request.form['username'], 
@@ -78,6 +79,7 @@ def register():
                     'verified':False
                     })
                 return redirect(url_for('home'))
+            
             elif request.form['user_type'] == 'buddy':
                 users.insert({
                     'username':request.form['username'], 
@@ -88,6 +90,7 @@ def register():
                     'verified':False
                     })
                 return redirect(url_for('home'))
+            
             elif request.form['user_type'] == 'chauffeur':
                 users.insert({
                     'username':request.form['username'], 
@@ -106,7 +109,8 @@ def register():
                     'verified':True
                     })
                 return redirect(url_for('home'))
-            else: 
+            
+            elif request.form['user_type'] == 'investigator': 
                 users.insert({
                     'username':request.form['username'],
                     'password':hashpass,
@@ -116,6 +120,8 @@ def register():
                     })
                 return redirect(url_for('home'))
             
+            else:
+                return render_template('registration_error.html')
             # Create Session variables when Registering
             session['username'] = request.form['username']
             session['user_type'] = request.form['user_type']
