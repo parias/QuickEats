@@ -101,15 +101,17 @@ def register():
                     'verified':False
                     })
                 return redirect(url_for('home'))
-            elif request.form['user_type'] == 'nerd':
-                users.insert({
-                    'username':request.form['username'],
-                    'password':hashpass,
-                    'user_type':request.form['user_type'],
-                    'on_clock':True,
-                    'verified':True
-                    })
-                return redirect(url_for('home'))
+            
+            # Removed Nerd Registration
+            #elif request.form['user_type'] == 'nerd':
+            #    users.insert({
+            #        'username':request.form['username'],
+            #        'password':hashpass,
+            #        'user_type':request.form['user_type'],
+            #        'on_clock':True,
+            #        'verified':True
+            #        })
+            #    return redirect(url_for('home'))
             
             elif request.form['user_type'] == 'investigator': 
                 users.insert({
