@@ -41,7 +41,7 @@
 			}
 			h2 span { 
 				color: white;
-				font: bold 10px/12px Helvetica, Sans-Serif;
+				font: bold 12px/14px Helvetica, Sans-Serif;
 				letter-spacing: -1px;
 				background: rgb(0, 0, 0);
 				background: rgba(0, 0, 0, 0.7);
@@ -54,46 +54,71 @@
          table, th {
                 text-align: center;
          }
+         .strokeme{
+             color: white;
+             text-shadow:
+             -1px -1px 0 #000,
+             1px -1px 0 #000,
+             -1px 1px 0 #000,
+             1px 1px 0 #000;  
+         }
       </style>
    </head>
 
 <header>
    <div class="col-md-12 text-center">
       <ul class="nav nav-pills center-pills">
+         {% for key, value in ads[0].items() %}
 			<li>
 			<div class="image">
-					<img src="http://i.imgur.com/RRUe0Mo.png" alt="" width="100" height="50"/>
-					<h2>A Movie in the Park:<br />Kung Fu Panda</h2>
+            <a href="/ad_click/{{key}}">
+               <img src="{{value['image']}}" alt="" width="100" height="50"/>
+               <h2 class="strokeme">{{value['message']}}</h2>
+            </a>
 			</div>
 			</li>
-			<li>
+         {% endfor %}
+         {% for key, value in ads[1].items() %}
+         <li>
 				<div class="image">
 					<!-- <a href="#" onClick="alert('{{key}} has added to your cart')"> -->
 					<!-- No Alert that Item is in Cart, sneaky ads -->
-					<a href="/ad_click/Cat">
-					   <img src="http://i.imgur.com/RRUe0Mo.png" alt="" width="100" height="50"/>
-						<h2>A Movie in the Park:<br />Kung Fu Panda</h2>
+               <a href="/ad_click/{{key}}">
+                  <img src="{{value['image']}}" alt="" width="100" height="50"/>
+                  <h2 class="strokeme">{{value['message']}}</h2>
 					</a>
 				</div>
 			</li>
-         <li role="presentation"><a href="/home">Home {{ads}}</a></li>
+         {% endfor %}
+         <li role="presentation"><a href="/home">Home</a></li>
 			<li role="presentation"><a href="/menu">Menu</a></li>
 			<li role="presentation"><a href="/orders/">Orders</a></li>
 			<li role="presentation"><a href="/cart/">Cart</a></li>
 			<li role="presentation"><a href="/messages/">Messages</a></li>
 			<li role="presentation"><a href="/logout">Logout</a></li>
-			<li>
+			{% for key, value in ads[2].items() %}
+         <li>
 				<div class="image">
-               <img src="http://i.imgur.com/RRUe0Mo.png" alt="" width="100" height="50"/>
-					<h2>A Movie in the Park:<br />Kung Fu Panda</h2>
+					<!-- <a href="#" onClick="alert('{{key}} has added to your cart')"> -->
+					<!-- No Alert that Item is in Cart, sneaky ads -->
+               <a href="/ad_click/{{key}}">
+                  <img src="{{value['image']}}" alt="" width="100" height="50"/>
+                  <h2 class="strokeme">{{value['message']}}</h2>
+					</a>
 				</div>
 			</li>
-			<li>
-            <div class="image">
-				   <img src="http://i.imgur.com/RRUe0Mo.png" alt="" width="100" height="50"/>
-				   <h2>A Movie in the Park:<br />Kung Fu Panda</h2>
-            </div>
+         {% endfor %}{% for key, value in ads[3].items() %}
+         <li>
+				<div class="image">
+					<!-- <a href="#" onClick="alert('{{key}} has added to your cart')"> -->
+					<!-- No Alert that Item is in Cart, sneaky ads -->
+               <a href="/ad_click/{{key}}">
+                  <img src="{{value['image']}}" alt="" width="100" height="50"/>
+                  <h2 class="strokeme">{{value['message']}}</h2>
+					</a>
+				</div>
 			</li>
+         {% endfor %}</li>
       </ul>
    </div>
 </header>

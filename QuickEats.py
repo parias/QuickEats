@@ -139,7 +139,7 @@ def register():
 
         return 'That username already exists!'
 
-    return render_template('register.html')
+    return render_template('register.html', ads=get_ads())
 
 
 @app.route('/home/')
@@ -329,7 +329,7 @@ def cart():
 @app.route('/add_item')
 def add_item():
     # Add Menu Item (Buddy)
-    return render_template('add_item.html')
+    return render_template('add_item.html', ads=get_ads())
 
 
 @app.route('/add_menu_item', methods=['POST'])
@@ -538,7 +538,8 @@ def get_ads():
         entree = foods[random.randint(0,num_ads)]
         ads.append({ entree:all_ads[entree] })
 
-    return jsonify(ads)
+    # return jsonify(ads)
+    return ads
 
 
 if __name__ == '__main__':
@@ -547,18 +548,3 @@ if __name__ == '__main__':
     context = ('server.crt', 'server.key')
     #app.run(host='0.0.0.0',debug=True, ssl_context=context)
     app.run(host='127.0.0.1', debug=True, ssl_context=context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
