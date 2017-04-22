@@ -209,12 +209,27 @@ def orders():
         
         # If Investigator, shows all Completed Orders
         if user['user_type'] == 'investigator':
-            orders = defaultdict(int)
+            orders = []
+            ads = {}
+            
+            # Adds adds all orders to list, then converts to dict with counting
+            # ex: {'waffles':4, 'Cake':2, ...}
             for item in mongo.db.orders.find({'completed':True}):
-                key = item['entree']
-                orders[key] += 1
+                orders.append(item['entree'])
+            orders = Counter(orders)
+            
+            # Creates Dict with Menu Item ID, entree name, and number of times ordered
+            for entree in orders:
+                menu_item = mongo.db.menu.find_one({'entree':entree})
+                menu_id = str(menu_item['_id'])
+                ads.update({
+                    menu_id: {
+                        'entree':entree,
+                        'num_orders': orders[entree]
+                    }
+                })
                 
-            return render_template('orders.html',orders=orders, user_type=user['user_type'])
+            return render_template('orders.html',orders=ads, user_type=user['user_type'])
 
 
         # Everyone else, just shows orders
@@ -456,6 +471,18 @@ def remove_message(object_id):
     object_id = ObjectId(object_id)
     mongo.db.messages.remove({'_id':object_id})
     return redirect(url_for('messages'))
+
+
+@app.route('/create_ad/<string:object_id>')
+def create_ad(object_id):
+    object_id = ObjectId(object_id)
+    menu_item = mongo.db.menu.find_one({'_id':object_id})
+    mongo.db.ads.insert({
+        'menu_item':object_id,
+        'message': 'Order Now!',
+        'img':menu_item['img']
+    })
+    return redirect(url_for('orders'))
 
 
 @app.route('/elevate/<string:object_id>')

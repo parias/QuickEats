@@ -61,9 +61,9 @@
       </thead>
       {% for key, value in orders.items() %}
       <tr id="tr-id-1" class="tr-class-1">
-         <td id="td-id-1" class="td-class-1">{{ key }}</td>
-         <td>{{ value }}</td>
-          <td><a class="btn btn-primary" href="#" onClick="alert('{{value['key']}} Ad has been created')">Complete</a></td>
+         <td id="td-id-1" class="td-class-1">{{ value['entree'] }}</td>
+         <td>{{ value['num_orders'] }}</td>
+         <td><a class="btn btn-primary" href="/create_ad/{{key}}" onClick="alert('{{value['entree']}} Ad has been created')">Complete</a></td>
       </tr>
       {% endfor %}
    </table> 
