@@ -40,7 +40,8 @@ def login():
                 session['username'] = request.form['username']
                 session['user_type'] = mongo.db.users.find_one({'username':request.form['username']})['user_type']
                 user_type = session['user_type']
-                session['cart'] = []
+                if 'cart' not in session:
+                    session['cart'] = []
                 if user_type == 'chauffeur':
                     mongo.db.users.update({'username':session['username']}, {"$set":{'on_clock':True}})
                 return redirect(url_for('home'))
@@ -130,7 +131,8 @@ def register():
             # Create Session variables when Registering
             session['username'] = request.form['username']
             session['user_type'] = request.form['user_type']
-            session['cart'] = []
+            if 'cart' not in session:
+                session['cart'] = []
             return redirect(url_for('home'))
 
         return 'That username already exists!'
@@ -358,20 +360,23 @@ def complete_order(object_id):
 
 @app.route('/pay/', methods=['POST'])
 def pay():
-    return render_template('pay.html', total=request.form['total'], cart=request.form['cart'])
+    if 'username' not in session:
+        return render_template('login_error.html')
+    else:
+        return render_template('pay.html', total=request.form['total'], cart=request.form['cart'])
 
 
 @app.route('/process', methods=['POST'])
 def process():
-    # Converts to Dict.
+        # Converts to Dict.
     cart = ast.literal_eval(request.form['cart'])
     name = request.form['name']
     cc_num = request.form['number']
     expiration = request.form['expiry'].split('/')
     cvc = request.form['cvc']
 
-    if name == '' or cc_num == '' or expiration == None or cvc == '': 
-        return 'Please enter valid Credit Card Information'
+    if name == '' or cc_num == '' or len(expiration) != 2 or expiration[1] == '' or cvc == '': 
+        return render_template('credit_error.html')
     """
     Cart = {item key:[key:value]}
     """
@@ -413,7 +418,7 @@ def process():
             })
         return redirect('/menu/')
 
-    return 'An Error Has Occured - Pablo'
+    return render_template('credit_error.html')
 
 
 @app.route('/messages/')
