@@ -1,9 +1,10 @@
-from flask import Flask, jsonify, render_template, url_for, request, session, redirect, flash
+from flask import Flask, render_template, url_for, request, session, redirect
 from collections import Counter, defaultdict
 from datetime import datetime, date, time
 from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
 from OpenSSL import SSL
+import operator
 import bcrypt
 import time
 import ast
@@ -224,10 +225,8 @@ def orders():
                     'date_time':str(date_time)
                 }
             })
-                #return jsonify(orders)
         return render_template('orders.html',orders=orders)
     else: 
-        #TODO Make Prettier, can use flash() and redirect maybe
         return render_template('login_error.html')
 
 
@@ -337,8 +336,6 @@ def complete_order(object_id):
 
 @app.route('/pay/', methods=['POST'])
 def pay():
-    #output = [request.form['total'], request.form['cart']]
-    #return jsonify(output)
     return render_template('pay.html', total=request.form['total'], cart=request.form['cart'])
 
 
@@ -440,6 +437,7 @@ def elevate(object_id):
     mongo.db.users.update({'_id':object_id}, {"$set":{'verified':True}})
     return redirect(url_for('messages'))
 
+
 @app.route('/logout')
 def logout():
     if 'user_type' in session:
@@ -459,4 +457,5 @@ if __name__ == '__main__':
     app.jinja_env.cache = {}
     # SSL Connection
     context = ('server.crt', 'server.key')
-    app.run(debug=True, ssl_context=context)
+    #app.run(host='0.0.0.0',debug=True, ssl_context=context)
+    app.run(host='127.0.0.1', debug=True, ssl_context=context)
