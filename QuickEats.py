@@ -4,7 +4,6 @@ from datetime import datetime, date, time
 from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
 from OpenSSL import SSL
-import pycard
 import bcrypt
 import time
 import ast
@@ -12,7 +11,6 @@ import ast
 app = Flask(__name__)
 app.secret_key = 'helloworld'
 app.config['TEMPLATES_AUTO_RELOAD'] = True 
-
 app.config['MONGO_DBNAME'] = 'quickeats'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/quickeats'
 
@@ -152,6 +150,7 @@ def orders():
                         'address':item['address'],
                         'cost':item['cost'],
                         'restaurant':item['restaurant'],
+                        'requested_delivery':item['requested_delivery'],
                         'completed':item['completed']
                     }
                 })
@@ -179,14 +178,6 @@ def orders():
         if user['user_type'] == 'investigator':
             orders = defaultdict(int)
             for item in mongo.db.orders.find({'completed':True}):
-                #order_id = str(item['_id'])
-                #orders.update({
-                #        'entree':item['entree'],
-                #        'address':item['address'],
-                #        'cost':item['cost'],
-                #        'restaurant':item['restaurant'],
-                #        'completed':item['completed']
-                #})
                 key = item['entree']
                 orders[key] += 1
                 
@@ -425,4 +416,4 @@ if __name__ == '__main__':
     app.jinja_env.cache = {}
     # SSL Connection
     context = ('server.crt', 'server.key')
-    app.run(host='127.0.0.1', port='5000', debug=True, ssl_context='adhoc')
+    app.run(debug=True, ssl_context=context)

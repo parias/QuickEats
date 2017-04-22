@@ -16,6 +16,7 @@
          <tr>
             <th>Menu Item</th>
             <th>Cost</th>
+            <th>Requested Delivery</th>
             <th>Prepare</th>
          </tr>
       </thead>
@@ -23,6 +24,7 @@
       <tr id="tr-id-1" class="tr-class-1">
          <td id="td-id-1" class="td-class-1">{{ value['entree'] }}</td>
          <td>{{ value['cost'] }}</td>
+         <td>{{value['requested_delivery']}}</td>
          <td><a class="btn btn-primary" href="/deliver/{{key}}" onClick="alert('{{value['entree']}} Will be Delivered')">Deliver</a></td>
       </tr>
       {% endfor %}
