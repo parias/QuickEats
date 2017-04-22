@@ -31,13 +31,18 @@ def login():
 
     if login_user:
         if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
-            session['username'] = request.form['username']
-            session['user_type'] = mongo.db.users.find_one({'username':request.form['username']})['user_type']
-            user_type = session['user_type']
-            session['cart'] = []
-            if user_type == 'chauffeur':
-                mongo.db.users.update({'username':session['username']}, {"$set":{'on_clock':True}})
-            return redirect(url_for('home'))
+
+            # Adding Request Functionality
+            if login_user['verified'] == False:
+                return 'Not Verified'
+            else:
+                session['username'] = request.form['username']
+                session['user_type'] = mongo.db.users.find_one({'username':request.form['username']})['user_type']
+                user_type = session['user_type']
+                session['cart'] = []
+                if user_type == 'chauffeur':
+                    mongo.db.users.update({'username':session['username']}, {"$set":{'on_clock':True}})
+                return redirect(url_for('home'))
         return 'Invalid username/password combination'
 
     return 'Invalid username/password combination'
@@ -60,41 +65,56 @@ def register():
                     'address':request.form['address'], 
                     'city':request.form['city'], 
                     'state':request.form['state'],
-                    'user_type':request.form['user_type']
+                    'user_type':request.form['user_type'],
+                    'verified':True
                     })
             elif request.form['user_type'] == 'captain':
                 users.insert({
                     'username':request.form['username'], 
                     'password':hashpass, 
                     'restaurant':request.form['restaurant'],
-                    'user_type':request.form['user_type']
+                    'user_type':request.form['user_type'],
+                    'on_clock':True,
+                    'verified':False
                     })
+                return redirect(url_for('home'))
             elif request.form['user_type'] == 'buddy':
                 users.insert({
                     'username':request.form['username'], 
                     'password':hashpass, 
                     'restaurant':request.form['restaurant'],
-                    'user_type':request.form['user_type']
+                    'user_type':request.form['user_type'],
+                    'on_clock':True,
+                    'verified':False
                     })
+                return redirect(url_for('home'))
             elif request.form['user_type'] == 'chauffeur':
                 users.insert({
                     'username':request.form['username'], 
                     'password':hashpass, 
                     'user_type':request.form['user_type'],
-                    'on_clock':True
+                    'on_clock':True,
+                    'verified':False
                     })
+                return redirect(url_for('home'))
             elif request.form['user_type'] == 'nerd':
                 users.insert({
                     'username':request.form['username'],
                     'password':hashpass,
-                    'user_type':request.form['user_type']
+                    'user_type':request.form['user_type'],
+                    'on_clock':True,
+                    'verified':True
                     })
+                return redirect(url_for('home'))
             else: 
                 users.insert({
                     'username':request.form['username'],
                     'password':hashpass,
-                    'user_type':request.form['user_type']
+                    'user_type':request.form['user_type'],
+                    'on_clock':True,
+                    'verified':False
                     })
+                return redirect(url_for('home'))
             
             # Create Session variables when Registering
             session['username'] = request.form['username']
@@ -381,13 +401,24 @@ def messages():
             message_id = str(item['_id'])
             messages.update({
                 message_id: {
-                    'message':item['message'],
+                    'message':item['message']
                 }
             })
-        return render_template('messages.html',messages=messages)
+        return render_template('messages.html',messages=messages, user_type=session['user_type'])
+    elif 'username' in session and \
+            session['user_type'] == 'nerd':
+        messages = {}
+        for item in mongo.db.users.find({'verified':False}):
+            message_id = str(item['_id'])
+            messages.update({
+                message_id:{
+                    'message':item['username'] + ' requested for employee elevation'
+                }
+            })
+        return render_template('messages.html', messages=messages, user_type=session['user_type'])
     else:
-        # Only Patrons Have messages;To view order updates
-        return render_template('login_error.html') 
+        # Only Patrons and Nerds Have messages;To view order updates
+        return render_template('user_error.html') 
 
 
 @app.route('/remove_message/<string:object_id>')
@@ -396,6 +427,12 @@ def remove_message(object_id):
     mongo.db.messages.remove({'_id':object_id})
     return redirect(url_for('messages'))
 
+
+@app.route('/elevate/<string:object_id>')
+def elevate(object_id):
+    object_id = ObjectId(object_id)
+    mongo.db.users.update({'_id':object_id}, {"$set":{'verified':True}})
+    return redirect(url_for('messages'))
 
 @app.route('/logout')
 def logout():

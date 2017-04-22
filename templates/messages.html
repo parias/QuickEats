@@ -8,6 +8,9 @@
 <body>
    <div class="container">
    {% if messages %}
+
+   <!-- If Patron, shows Order updates-->
+   {% if user_type == 'patron' %}
    <table data-toggle="table">
       <thead>
          <tr>
@@ -21,19 +24,34 @@
       </tr>
       {% endfor %}
    </table>
+
+<!-- If Chauffeur, shows undeliverd orders-->
+   {% elif user_type == 'nerd' %}
+   <table data-toggle="table">
+      <thead>
+         <tr>
+            <th>Message</th>
+            <th>Action</th>
+         </tr>
+      </thead>
+      {% for key, value in messages.items() %}
+      <tr id="tr-id-1" class="tr-class-1">
+         <td id="td-id-1" class="td-class-1">{{ value['message'] }}</td>
+         <td><a class="btn btn-primary" href="/elevate/{{key}}" onClick="alert('User has been elevated to Employee')">Elevate</a></td>
+      </tr>
+      {% endfor %}
+   </table>
+
+
    {% else %}
    <table data-toggle="table">
       <td>There are no messages.</td>
    </table>
    {% endif %}
-
-   <!-- Buddy Add Menu Items -->
-   {% if user_type == 'buddy' %}
-   <div class="col-md-12 text-center">
-      <ul class="nav nav-pills center-pills">
-         <li role="presentation"><a href="/add_item">Add Menu Item</a></li>
-      </ul>
-   </div>   
+   {% else %}
+	<table data-toggle="table">
+		<td>There are no messages.</td>
+   </table>
    {% endif %}
    </div>
 </body>

@@ -21,10 +21,11 @@
       - Image
       - Link to add_to_cart
 
-4) Requesting Employee Account
-   - Do we have to?
+#4) Requesting Employee Account
+#   - Do we have to?
 
-7) Payment
+#7) Payment
+   - Do we need to have checking for date range on Credit Card?   
 
 8) Maybe Remove Captain
    - Captain doesnt need to do anything, Buddy is 'scheduled' when logged in
@@ -48,11 +49,11 @@
    - Zip
    - etc.
 
-13) Test Functionality for Buddies only seeing only their restaurant orders
+#13) Test Functionality for Buddies only seeing only their restaurant orders
 
 # 14) Messages for Updates
 
-15) Better Error CC Page
+15) Better Error Credit Card Page
 
 TODO for Project:
 1) Fix Diagrams:

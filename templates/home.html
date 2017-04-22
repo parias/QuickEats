@@ -5,11 +5,18 @@
    <title>Home</title>
 </head>
 <body>
-{% if username %}
-   <h1>Hello {{ username }}!</h1>
-{% else %}
-   <h1>Hello, World </h1>
-{% endif %}
+   <center>
+      <div class="container">
+         
+         {% if username %}
+         <h1>Hello {{ username }}!</h1>
+
+         {% else %}
+         <h1>Hello, World </h1>
+
+         {% endif %}
+      </div>
+   </center>
 </body>
 {% endblock %}
 </html>
