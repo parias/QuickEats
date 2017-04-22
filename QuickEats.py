@@ -70,16 +70,17 @@ def register():
                     'verified':True
                     })
 
-            elif request.form['user_type'] == 'captain':
-                users.insert({
-                    'username':request.form['username'], 
-                    'password':hashpass, 
-                    'restaurant':request.form['restaurant'],
-                    'user_type':request.form['user_type'],
-                    'on_clock':True,
-                    'verified':False
-                    })
-                return redirect(url_for('home'))
+            # Removed Captain
+            #elif request.form['user_type'] == 'captain':
+            #    users.insert({
+            #        'username':request.form['username'], 
+            #        'password':hashpass, 
+            #        'restaurant':request.form['restaurant'],
+            #        'user_type':request.form['user_type'],
+            #        'on_clock':True,
+            #        'verified':False
+            #        })
+            #    return redirect(url_for('home'))
             
             elif request.form['user_type'] == 'buddy':
                 users.insert({
@@ -125,6 +126,7 @@ def register():
             
             else:
                 return render_template('registration_error.html')
+            
             # Create Session variables when Registering
             session['username'] = request.form['username']
             session['user_type'] = request.form['user_type']
@@ -266,7 +268,7 @@ def ad_click(entree):
         cart = []
         cart.append(entree)
         session['cart'] = cart
-    return redirect('#')
+    return redirect(url_for('cart'))
 
 
 @app.route('/cart/')
