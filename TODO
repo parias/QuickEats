@@ -7,7 +7,7 @@
    # - Quantity 
    - If order has list of entrees, shows it as a list
       ex: ['wings', 'pizza', 'ranch']   
-   - For Chauffeur, add Address column
+   #- For Chauffeur, add Address column
    #- Need Address for Anonymous Ordering
    #   solved by not letting not logged in users pay/order, redirects to login
    #
@@ -22,8 +22,9 @@
       #- Text
       #- Image
       #- Link to add_to_cart
-   - extra: Page for Different Message for Ad?
-   - Dynamically load Ads
+   #- extra: Page for Different Message for Ad?
+   #- Dynamically load Ads
+   #- Unique ads in Ads Table?
 
 #4) Requesting Employee Account
 #   - Do we have to?
@@ -57,7 +58,7 @@
 
 # 14) Messages for Updates
 
-15) Better Error Credit Card Page
+# 15) Better Error Credit Card Page
 
 #16) Need Not Verified Page
 

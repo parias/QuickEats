@@ -484,12 +484,18 @@ def remove_message(object_id):
 def create_ad(object_id):
     object_id = ObjectId(object_id)
     menu_item = mongo.db.menu.find_one({'_id':object_id})
-    mongo.db.ads.insert({
-        'menu_item':object_id,
-        'message': 'Order Now!',
-        'img':menu_item['img'],
-        'item_name':menu_item['entree']
-    })
+    #mongo.db.ads.insert({
+    #    'menu_item':object_id,
+    #    'message': 'Order Now!',
+    #    'img':menu_item['img'],
+    #    'item_name':menu_item['entree']
+    #})
+    # Unique ads
+    mongo.db.ads.update(
+            {'item_name':menu_item['entree']},
+            {"$set": {'message':'Order Now!', 'img':menu_item['img'], 'menu_item':object_id}},
+            upsert=True
+    )
     return redirect(url_for('orders'))
 
 
