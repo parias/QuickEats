@@ -1,5 +1,6 @@
 # 1) If no Cart, need to alert empty cart
    # - at the current moment it is showing Chinese characters (probably object representation)
+   - Clear Cart Button functionality
 
 2) Order
    #- List of entrees
@@ -7,19 +8,22 @@
    - If order has list of entrees, shows it as a list
       ex: ['wings', 'pizza', 'ranch']   
    - For Chauffeur, add Address column
-   - Need Address for Anonymous Ordering
-
+   #- Need Address for Anonymous Ordering
+   #   solved by not letting not logged in users pay/order, redirects to login
+   #
 #@ Need to Have Separate Logins
    # - Buddy Adding Menu Items
    # - Buddy Requesting Driver
 
 3) Ads
-   - Maybe put them on either side of Pills
-   - Maybe Put Text above Menu item(the ad), that puts it into their cart when clicked
-   - Maybe need to create a div for Ad that contains:
-      - Text
-      - Image
-      - Link to add_to_cart
+   #- Maybe put them on either side of Pills
+   #- Maybe Put Text above Menu item(the ad), that puts it into their cart when clicked
+   #- Maybe need to create a div for Ad that contains:
+      #- Text
+      #- Image
+      #- Link to add_to_cart
+   - extra: Page for Different Message for Ad?
+   - Dynamically load Ads
 
 #4) Requesting Employee Account
 #   - Do we have to?
@@ -27,8 +31,8 @@
 #7) Payment
    - Do we need to have checking for date range on Credit Card?   
 
-8) Maybe Remove Captain
-   - Captain doesnt need to do anything, Buddy is 'scheduled' when logged in
+#8) Maybe Remove Captain
+#   - Captain doesnt need to do anything, Buddy is 'scheduled' when logged in
 
 9) Add User Zip Code
    - Add search for restaurants/menu items based on Zip Code
@@ -55,7 +59,8 @@
 
 15) Better Error Credit Card Page
 
-16) Need Not Verified Page
+#16) Need Not Verified Page
+
 
 TODO for Project:
 1) Fix Diagrams:

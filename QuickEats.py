@@ -21,8 +21,8 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return render_template('home.html')
-    return render_template('index.html')
+        return render_template('home.html', get_ads())
+    return render_template('index.html', get_ads())
 
 
 @app.route('/login', methods=['POST'])
@@ -36,6 +36,7 @@ def login():
             # Adding Request Functionality
             if login_user['verified'] == False:
                 return render_template('not_verified.html')
+
             else:
                 session['username'] = request.form['username']
                 session['user_type'] = mongo.db.users.find_one({'username':request.form['username']})['user_type']
@@ -143,7 +144,7 @@ def register():
 @app.route('/home/')
 def home(username=None):
     if 'username' in session:
-        return render_template('home.html', username=session['username'])
+        return render_template('home.html', username=session['username'], get_ads())
     else:
         return redirect('/')
 
@@ -162,13 +163,14 @@ def menu():
 
     # If Buddy, then adds 'Add Menu Item' button 
     if 'user_type' in session:
-        return render_template('menu.html',menu=menu, user_type=session['user_type'])
+        return render_template('menu.html',menu=menu, user_type=session['user_type'], get_ads())
     else:
-        return render_template('menu.html',menu=menu)
+        return render_template('menu.html',menu=menu, get_ads())
 
 
 @app.route('/orders/')
 def orders():
+    ads = 'hello ads world'
     if 'username' in session:
         user = mongo.db.users.find_one({'username':session['username']})
 
@@ -188,7 +190,7 @@ def orders():
                     }
                 })
                 
-            return render_template('orders.html',orders=orders, user_type=user['user_type'])
+            return render_template('orders.html',orders=orders, user_type=user['user_type'], get_ads())
 
         # If Chauffeur, shows orders than need to be completed
         if user['user_type'] == 'chauffeur':
@@ -205,7 +207,7 @@ def orders():
                     }
                 })
                     
-            return render_template('orders.html',orders=orders, user_type=user['user_type'])
+            return render_template('orders.html',orders=orders, user_type=user['user_type'], get_ads())
         
         # If Investigator, shows all Completed Orders
         if user['user_type'] == 'investigator':
@@ -229,7 +231,7 @@ def orders():
                     }
                 })
                 
-            return render_template('orders.html',orders=ads, user_type=user['user_type'])
+            return render_template('orders.html',orders=ads, user_type=user['user_type'], get_ads())
 
 
         # Everyone else, just shows orders
@@ -246,7 +248,7 @@ def orders():
                     'date_time':str(date_time)
                 }
             })
-        return render_template('orders.html',orders=orders)
+        return render_template('orders.html',orders=orders,ads=get_ads())
     else: 
         return render_template('login_error.html')
 
@@ -319,7 +321,7 @@ def cart():
                     }
                 })
         
-        return render_template('cart.html', cart=cart, total=total)
+        return render_template('cart.html', cart=cart, total=total, get_ads())
     else:
         return render_template('login_error.html')
 
@@ -353,7 +355,8 @@ def deliver(object_id):
     order = mongo.db.orders.find_one({'_id':object_id})
     mongo.db.messages.insert({
             'username':order['username'],
-            'message':'Your Order has been requested for delivery'
+            'message':'Your Order has been requested for delivery',
+            'time': datetime.now()
         })
 
     return redirect('/orders/')
@@ -368,7 +371,8 @@ def complete_order(object_id):
     order = mongo.db.orders.find_one({'_id':object_id})
     mongo.db.messages.insert({
             'username':order['username'],
-            'message':'Your order has been Delivered and Completed'
+            'message':'Your order has been Delivered and Completed',
+            'time':datetime.now()
         })
     return redirect('/orders/')
 
@@ -378,7 +382,7 @@ def pay():
     if 'username' not in session:
         return render_template('login_error.html')
     else:
-        return render_template('pay.html', total=request.form['total'], cart=request.form['cart'])
+        return render_template('pay.html', total=request.form['total'], cart=request.form['cart'], get_ads())
 
 
 @app.route('/process', methods=['POST'])
@@ -444,12 +448,14 @@ def messages():
         messages = {}
         for item in mongo.db.messages.find({'username':user['username']}):
             message_id = str(item['_id'])
+            date_time = item['time'].strftime('%B %d, %Y at %I:%M %p')
             messages.update({
                 message_id: {
-                    'message':item['message']
+                    'message':item['message'],
+                    'date_time': date_time
                 }
             })
-        return render_template('messages.html',messages=messages, user_type=session['user_type'])
+        return render_template('messages.html',messages=messages, user_type=session['user_type'], get_ads())
     elif 'username' in session and \
             session['user_type'] == 'nerd':
         messages = {}
@@ -460,7 +466,7 @@ def messages():
                     'message':item['username'] + ' requested for employee elevation'
                 }
             })
-        return render_template('messages.html', messages=messages, user_type=session['user_type'])
+        return render_template('messages.html', messages=messages, user_type=session['user_type'], get_ads())
     else:
         # Only Patrons and Nerds Have messages;To view order updates
         return render_template('user_error.html') 
@@ -506,6 +512,9 @@ def logout():
 def page_not_found(e):
     return render_template('404.html'), 404
 
+
+def get_ads():
+    return 'get ads function'
 
 if __name__ == '__main__':
     app.jinja_env.cache = {}

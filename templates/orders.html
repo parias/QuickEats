@@ -25,7 +25,7 @@
          <td id="td-id-1" class="td-class-1">{{ value['entree'] }}</td>
          <td>{{ value['cost'] }}</td>
          <td>{{value['requested_delivery']}}</td>
-         <td><a class="btn btn-primary" href="/deliver/{{key}}" onClick="alert('{{value['entree']}} Will be Delivered')">Deliver</a></td>
+         <td><a class="btn btn-primary" href="/deliver/{{key}}" onClick="alert('{{value['entree']}} Will be Delivered')">Request Delivery</a></td>
       </tr>
       {% endfor %}
    </table> 
@@ -37,7 +37,7 @@
          <tr>
             <th>Menu Item</th>
             <th>Address</th>
-            <th>Prepare</th>
+            <th>Deliver</th>
          </tr>
       </thead>
       {% for key, value in orders.items() %}

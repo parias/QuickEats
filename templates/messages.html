@@ -15,11 +15,13 @@
       <thead>
          <tr>
             <th>Message</th>
+            <th>Time</th>
             <th>Action</th>
       </thead>
       {% for key, value in messages.items() %}
       <tr id="tr-id-1" class="tr-class-1">
          <td id="td-id-1" class="td-class-1">{{value['message']}}</td>
+         <td >{{value['date_time']}}</td>
          <td><a class="btn btn-primary" href="/remove_message/{{key}}" onClick="alert('Message has been removed')">Remove</a></td>
       </tr>
       {% endfor %}
