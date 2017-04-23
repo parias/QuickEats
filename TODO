@@ -35,8 +35,8 @@
 #8) Maybe Remove Captain
 #   - Captain doesnt need to do anything, Buddy is 'scheduled' when logged in
 
-9) Add User Zip Code
-   - Add search for restaurants/menu items based on Zip Code
+#9) Add User Zip Code
+#   - Add search for restaurants/menu items based on Zip Code
 
 10) Better Home Page
 
@@ -48,10 +48,10 @@
 
 12) More variables to menu item
    - Restaurant
-   - Zip
+#   - Zip
  
    # Same for Cart
-   - Zip
+#   - Zip
    - etc.
 
 #13) Test Functionality for Buddies only seeing only their restaurant orders
