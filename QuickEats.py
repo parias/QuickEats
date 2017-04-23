@@ -22,8 +22,8 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return render_template('home.html', ads=get_ads())
-    return render_template('index.html', ads=get_ads())
+        return render_template('home.html', ads=get_ads(), num_message=num_message())
+    return render_template('index.html', ads=get_ads(), num_message=num_message())
 
 
 @app.route('/login', methods=['POST'])
@@ -143,13 +143,13 @@ def register():
 
         return 'That username already exists!'
 
-    return render_template('register.html', ads=get_ads())
+    return render_template('register.html', ads=get_ads(), num_message=num_message())
 
 
 @app.route('/home/')
 def home(username=None):
     if 'username' in session:
-        return render_template('home.html', username=session['username'], ads=get_ads())
+        return render_template('home.html', username=session['username'], ads=get_ads(), num_message=num_message())
     else:
         return redirect('/')
 
@@ -179,9 +179,9 @@ def menu():
 
     # If Buddy, then adds 'Add Menu Item' button 
     if 'user_type' in session:
-        return render_template('menu.html',menu=menu, user_type=session['user_type'], ads=get_ads())
+        return render_template('menu.html',menu=menu, user_type=session['user_type'], ads=get_ads(), num_message=num_message())
     else:
-        return render_template('menu.html',menu=menu, ads=get_ads())
+        return render_template('menu.html',menu=menu, ads=get_ads(), num_message=num_message())
 
 
 @app.route('/orders/')
@@ -206,7 +206,7 @@ def orders():
                     }
                 })
                 
-            return render_template('orders.html',orders=orders, user_type=user['user_type'], ads=get_ads())
+            return render_template('orders.html',orders=orders, user_type=user['user_type'], ads=get_ads(), num_message=num_message())
 
         # If Chauffeur, shows orders than need to be completed
         if user['user_type'] == 'chauffeur':
@@ -223,7 +223,7 @@ def orders():
                     }
                 })
                     
-            return render_template('orders.html',orders=orders, user_type=user['user_type'], ads=get_ads())
+            return render_template('orders.html',orders=orders, user_type=user['user_type'], ads=get_ads(), num_message=num_message())
         
         # If Investigator, shows all Completed Orders
         if user['user_type'] == 'investigator':
@@ -247,7 +247,7 @@ def orders():
                     }
                 })
                 
-            return render_template('orders.html',orders=ads, user_type=user['user_type'], ads=get_ads())
+            return render_template('orders.html',orders=ads, user_type=user['user_type'], ads=get_ads(), num_message=num_message())
 
 
         # Everyone else, just shows orders
@@ -264,7 +264,7 @@ def orders():
                     'date_time':str(date_time)
                 }
             })
-        return render_template('orders.html',orders=orders,ads=get_ads())
+        return render_template('orders.html',orders=orders,ads=get_ads(), num_message=num_message())
     else: 
         return render_template('login_error.html')
 
@@ -337,14 +337,14 @@ def cart():
                     }
                 })
         
-        return render_template('cart.html', cart=cart, total=total, ads=get_ads())
+        return render_template('cart.html', cart=cart, total=total, ads=get_ads(), num_message=num_message())
     else:
         return render_template('login_error.html')
 
 @app.route('/add_item')
 def add_item():
     # Add Menu Item (Buddy)
-    return render_template('add_item.html', ads=get_ads())
+    return render_template('add_item.html', ads=get_ads(), num_message=num_message())
 
 
 @app.route('/add_menu_item', methods=['POST'])
@@ -402,7 +402,7 @@ def pay():
     if 'username' not in session:
         return render_template('login_error.html')
     else:
-        return render_template('pay.html', total=request.form['total'], cart=request.form['cart'], ads=get_ads())
+        return render_template('pay.html', total=request.form['total'], cart=request.form['cart'], ads=get_ads(), num_message=num_message())
 
 
 @app.route('/process', methods=['POST'])
@@ -475,7 +475,7 @@ def messages():
                     'date_time': date_time
                 }
             })
-        return render_template('messages.html',messages=messages, user_type=session['user_type'], ads=get_ads())
+        return render_template('messages.html',messages=messages, user_type=session['user_type'], ads=get_ads(), num_message=num_message())
     elif 'username' in session and \
             session['user_type'] == 'nerd':
         messages = {}
@@ -486,7 +486,7 @@ def messages():
                     'message':item['username'] + ' requested for employee elevation'
                 }
             })
-        return render_template('messages.html', messages=messages, user_type=session['user_type'], ads=get_ads())
+        return render_template('messages.html', messages=messages, user_type=session['user_type'], ads=get_ads(), num_message=num_message())
     else:
         # Only Patrons and Nerds Have messages;To view order updates
         return render_template('user_error.html') 
@@ -548,7 +548,6 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-@app.route('/ads')
 def get_ads():
     # What do you think this does?
     all_ads = {}
@@ -572,6 +571,18 @@ def get_ads():
         ads.append({ entree:all_ads[entree] })
 
     return ads
+
+def num_message():
+    count = 0
+    if 'username' in session:
+        if session['user_type'] == 'nerd':
+            for item in mongo.db.users.find({'verified':False}):
+                count += 1
+        if session['user_type'] == 'patron':
+            for item in mongo.db.messages.find({'username':session['username']}):
+                count += 1
+    return count
+
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 # 1) If no Cart, need to alert empty cart
    # - at the current moment it is showing Chinese characters (probably object representation)
-   - Clear Cart Button functionality
+   #X Clear Cart Button functionality
 
 2) Order
    #- List of entrees
@@ -29,8 +29,11 @@
 #4) Requesting Employee Account
 #   - Do we have to?
 
-#7) Payment
+7) Add Input Validation
+   - Year range
+   - Month range
    - Do we need to have checking for date range on Credit Card?   
+   - Check other user supplied input
 
 #8) Maybe Remove Captain
 #   - Captain doesnt need to do anything, Buddy is 'scheduled' when logged in
@@ -39,20 +42,22 @@
 #   - Add search for restaurants/menu items based on Zip Code
 
 10) Better Home Page
+    Better X Page
 
 11) Add Classes, Tables for Objects, Functions?
    - Restaurant, with Resturant ID for Buddies
    - Food Items have Restaurant ID added
    - Current Moment, Restaurant is just restaurant Name: enough?
    - ...
-
-12) More variables to menu item
-   - Restaurant
-#   - Zip
  
-   # Same for Cart
-#   - Zip
-   - etc.
+  
+
+#12) More variables to menu item
+   #- Restaurant
+   #- Zip
+   #- Same for Cart
+   #- Zip
+   #- etc.
 
 #13) Test Functionality for Buddies only seeing only their restaurant orders
 

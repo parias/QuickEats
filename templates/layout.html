@@ -94,7 +94,11 @@
 			<li role="presentation"><a href="/menu">Menu</a></li>
 			<li role="presentation"><a href="/orders/">Orders</a></li>
 			<li role="presentation"><a href="/cart/">Cart</a></li>
-			<li role="presentation"><a href="/messages/">Messages</a></li>
+         {% if num_message > 0 %}
+         <li role="presentation"><a href="/messages/">Messages ({{num_message}})</a></li>
+         {% else %}
+         <li role="presentation"><a href="/messages/">Messages</a></li>
+         {% endif %}
 			<li role="presentation"><a href="/logout">Logout</a></li>
 			{% for key, value in ads[2].items() %}
          <li>
