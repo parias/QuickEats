@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, url_for, request, session, redirect
+from flask import Flask, render_template, url_for, request, session, redirect
 from collections import Counter, defaultdict
 from datetime import datetime, date, time
 from bson.objectid import ObjectId
@@ -484,12 +484,7 @@ def remove_message(object_id):
 def create_ad(object_id):
     object_id = ObjectId(object_id)
     menu_item = mongo.db.menu.find_one({'_id':object_id})
-    #mongo.db.ads.insert({
-    #    'menu_item':object_id,
-    #    'message': 'Order Now!',
-    #    'img':menu_item['img'],
-    #    'item_name':menu_item['entree']
-    #})
+
     # Unique ads
     mongo.db.ads.update(
             {'item_name':menu_item['entree']},
@@ -503,6 +498,13 @@ def create_ad(object_id):
 def elevate(object_id):
     object_id = ObjectId(object_id)
     mongo.db.users.update({'_id':object_id}, {"$set":{'verified':True}})
+    return redirect(url_for('messages'))
+
+
+@app.route('/reject/<string:object_id>')
+def reject(object_id):
+    object_id = ObjectId(object_id)
+    mongo.db.users.remove({'_id':object_id})
     return redirect(url_for('messages'))
 
 
@@ -544,7 +546,6 @@ def get_ads():
         entree = foods[random.randint(0,num_ads)]
         ads.append({ entree:all_ads[entree] })
 
-    # return jsonify(ads)
     return ads
 
 

@@ -27,7 +27,7 @@
       {% endfor %}
    </table>
 
-<!-- If Chauffeur, shows undeliverd orders-->
+<!-- If Nerd, shows Employee Elevation Requests-->
    {% elif user_type == 'nerd' %}
    <table data-toggle="table">
       <thead>
@@ -39,7 +39,10 @@
       {% for key, value in messages.items() %}
       <tr id="tr-id-1" class="tr-class-1">
          <td id="td-id-1" class="td-class-1">{{ value['message'] }}</td>
-         <td><a class="btn btn-primary" href="/elevate/{{key}}" onClick="alert('User has been elevated to Employee')">Elevate</a></td>
+         <td>
+            <a class="btn btn-primary" href="/elevate/{{key}}" onClick="alert('User has been elevated to Employee.')">Elevate</a>
+            <a class="btn btn-primary" href="/reject/{{key}}" onClick="alert('User has been removed from the system.')">Reject</a>
+         </td>
       </tr>
       {% endfor %}
    </table>
