@@ -68,6 +68,7 @@ def register():
                     'password':hashpass, 
                     'address':request.form['address'], 
                     'city':request.form['city'], 
+                    'zip':request.form['zip'],
                     'state':request.form['state'],
                     'user_type':request.form['user_type'],
                     'verified':True
@@ -90,6 +91,7 @@ def register():
                     'username':request.form['username'], 
                     'password':hashpass, 
                     'restaurant':request.form['restaurant'],
+                    'zip':request.form['zip'],
                     'user_type':request.form['user_type'],
                     'on_clock':True,
                     'verified':False
@@ -100,6 +102,7 @@ def register():
                 users.insert({
                     'username':request.form['username'], 
                     'password':hashpass, 
+                    'zip':request.form['zip'],
                     'user_type':request.form['user_type'],
                     'on_clock':True,
                     'verified':False
@@ -122,6 +125,7 @@ def register():
                     'username':request.form['username'],
                     'password':hashpass,
                     'user_type':request.form['user_type'],
+                    'zip':request.form['zip'],
                     'on_clock':True,
                     'verified':False
                     })
@@ -153,14 +157,25 @@ def home(username=None):
 @app.route('/menu/')
 def menu():
     menu = {}
-    for item in mongo.db.menu.find():
-        menu.update({
-            item['entree']: {
-                'description':item['description'],
-                'cost': item['cost'], 
-                'img': item['img'] 
-            }
-        })
+    if 'username' in session:
+        user = mongo.db.users.find_one({'username':session['username']})
+        for item in mongo.db.menu.find({'zip':user['zip']}):
+            menu.update({
+                item['entree']: {
+                    'description':item['description'],
+                    'cost': item['cost'], 
+                    'img': item['img'] 
+                }
+            })
+    else:
+        for item in mongo.db.menu.find():
+            menu.update({
+                item['entree']: {
+                    'description':item['description'],
+                    'cost': item['cost'], 
+                    'img': item['img'] 
+                }
+            })
 
     # If Buddy, then adds 'Add Menu Item' button 
     if 'user_type' in session:
@@ -335,14 +350,18 @@ def add_item():
 @app.route('/add_menu_item', methods=['POST'])
 def add_menu_item():
     if request.method == 'POST':
-        restaurant = mongo.db.users.find_one({'username':session['username']})['restaurant']
+        user = mongo.db.users.find_one({'username':session['username']})
+        restaurant = user['restaurant']
+        zip_code = user['zip']
+        user = mongo.db.users.find_one({})
         menu = mongo.db.menu
         menu.insert({
             'entree':request.form['entree'],
             'description':request.form['description'],
             'cost':request.form['cost'],
             'img':request.form['image'],
-            'restaurant':restaurant
+            'restaurant':restaurant,
+            'zip':zip_code
         })
         return redirect(url_for('menu'))
 
@@ -496,16 +515,22 @@ def create_ad(object_id):
 
 @app.route('/elevate/<string:object_id>')
 def elevate(object_id):
-    object_id = ObjectId(object_id)
-    mongo.db.users.update({'_id':object_id}, {"$set":{'verified':True}})
-    return redirect(url_for('messages'))
+    if session['user_type'] == 'nerd':
+        object_id = ObjectId(object_id)
+        mongo.db.users.update({'_id':object_id}, {"$set":{'verified':True}})
+        return redirect(url_for('messages'))
+    else:
+        return render_template('user_error.html')
 
 
 @app.route('/reject/<string:object_id>')
 def reject(object_id):
-    object_id = ObjectId(object_id)
-    mongo.db.users.remove({'_id':object_id})
-    return redirect(url_for('messages'))
+    if session['user_type'] == 'nerd':
+        object_id = ObjectId(object_id)
+        mongo.db.users.remove({'_id':object_id})
+        return redirect(url_for('messages'))
+    else:
+        return render_template('user_error.html')
 
 
 @app.route('/logout')
