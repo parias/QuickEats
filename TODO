@@ -1,6 +1,6 @@
 # 1) If no Cart, need to alert empty cart
    # - at the current moment it is showing Chinese characters (probably object representation)
-   #X Clear Cart Button functionality
+   # Clear Cart Button functionality
 
 2) Order
    #- List of entrees
@@ -42,7 +42,7 @@
 #   - Add search for restaurants/menu items based on Zip Code
 
 10) Better Home Page
-    Better X Page
+    #Better Invalid Login Page
 
 11) Add Classes, Tables for Objects, Functions?
    - Restaurant, with Resturant ID for Buddies

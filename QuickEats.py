@@ -47,9 +47,9 @@ def login():
                 if user_type == 'chauffeur':
                     mongo.db.users.update({'username':session['username']}, {"$set":{'on_clock':True}})
                 return redirect(url_for('home'))
-        return 'Invalid username/password combination'
+        return render_template('invalid_login.html')
 
-    return 'Invalid username/password combination'
+    return render_template('invalid_login.html')
 
 
 @app.route('/register', methods=['POST', 'GET'])
