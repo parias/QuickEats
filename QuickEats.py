@@ -22,8 +22,8 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return render_template('home.html', ads=get_ads(), num_message=num_message())
-    return render_template('index.html', ads=get_ads(), num_message=num_message())
+        return render_template('home.html', ads=get_ads(), num_message=num_message(), cart_num=cart_count())
+    return render_template('index.html', ads=get_ads(), num_message=num_message(), cart_num=cart_count())
 
 
 @app.route('/login', methods=['POST'])
@@ -143,13 +143,13 @@ def register():
 
         return 'That username already exists!'
 
-    return render_template('register.html', ads=get_ads(), num_message=num_message())
+    return render_template('register.html', ads=get_ads(), num_message=num_message(), cart_num=cart_count())
 
 
 @app.route('/home/')
 def home(username=None):
     if 'username' in session:
-        return render_template('home.html', username=session['username'], ads=get_ads(), num_message=num_message())
+        return render_template('home.html', username=session['username'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
     else:
         return redirect('/')
 
@@ -179,9 +179,9 @@ def menu():
 
     # If Buddy, then adds 'Add Menu Item' button 
     if 'user_type' in session:
-        return render_template('menu.html',menu=menu, user_type=session['user_type'], ads=get_ads(), num_message=num_message())
+        return render_template('menu.html', menu=menu, user_type=session['user_type'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
     else:
-        return render_template('menu.html',menu=menu, ads=get_ads(), num_message=num_message())
+        return render_template('menu.html', menu=menu, ads=get_ads(), num_message=num_message(), cart_num=cart_count())
 
 
 @app.route('/orders/')
@@ -206,7 +206,7 @@ def orders():
                     }
                 })
                 
-            return render_template('orders.html',orders=orders, user_type=user['user_type'], ads=get_ads(), num_message=num_message())
+            return render_template('orders.html', orders=orders, user_type=user['user_type'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
 
         # If Chauffeur, shows orders than need to be completed
         if user['user_type'] == 'chauffeur':
@@ -223,7 +223,7 @@ def orders():
                     }
                 })
                     
-            return render_template('orders.html',orders=orders, user_type=user['user_type'], ads=get_ads(), num_message=num_message())
+            return render_template('orders.html', orders=orders, user_type=user['user_type'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
         
         # If Investigator, shows all Completed Orders
         if user['user_type'] == 'investigator':
@@ -247,7 +247,7 @@ def orders():
                     }
                 })
                 
-            return render_template('orders.html',orders=ads, user_type=user['user_type'], ads=get_ads(), num_message=num_message())
+            return render_template('orders.html', orders=ads, user_type=user['user_type'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
 
 
         # Everyone else, just shows orders
@@ -264,7 +264,7 @@ def orders():
                     'date_time':str(date_time)
                 }
             })
-        return render_template('orders.html',orders=orders,ads=get_ads(), num_message=num_message())
+        return render_template('orders.html', orders=orders, ads=get_ads(), num_message=num_message(), cart_num=cart_count())
     else: 
         return render_template('login_error.html')
 
@@ -337,14 +337,14 @@ def cart():
                     }
                 })
         
-        return render_template('cart.html', cart=cart, total=total, ads=get_ads(), num_message=num_message())
+        return render_template('cart.html', cart=cart, total=total, ads=get_ads(), num_message=num_message(), cart_num=cart_count())
     else:
         return render_template('login_error.html')
 
 @app.route('/add_item')
 def add_item():
     # Add Menu Item (Buddy)
-    return render_template('add_item.html', ads=get_ads(), num_message=num_message())
+    return render_template('add_item.html', ads=get_ads(), num_message=num_message(), cart_num=cart_count())
 
 
 @app.route('/add_menu_item', methods=['POST'])
@@ -402,7 +402,7 @@ def pay():
     if 'username' not in session:
         return render_template('login_error.html')
     else:
-        return render_template('pay.html', total=request.form['total'], cart=request.form['cart'], ads=get_ads(), num_message=num_message())
+        return render_template('pay.html', total=request.form['total'], cart=request.form['cart'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
 
 
 @app.route('/process', methods=['POST'])
@@ -475,7 +475,7 @@ def messages():
                     'date_time': date_time
                 }
             })
-        return render_template('messages.html',messages=messages, user_type=session['user_type'], ads=get_ads(), num_message=num_message())
+        return render_template('messages.html',messages=messages, user_type=session['user_type'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
     elif 'username' in session and \
             session['user_type'] == 'nerd':
         messages = {}
@@ -486,7 +486,7 @@ def messages():
                     'message':item['username'] + ' requested for employee elevation'
                 }
             })
-        return render_template('messages.html', messages=messages, user_type=session['user_type'], ads=get_ads(), num_message=num_message())
+        return render_template('messages.html', messages=messages, user_type=session['user_type'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
     else:
         # Only Patrons and Nerds Have messages;To view order updates
         return render_template('user_error.html') 
@@ -543,6 +543,12 @@ def logout():
     return redirect('/')
 
 
+@app.route('/clear_cart')
+def clear_cart():
+    session['cart'] = []
+    return redirect(url_for('cart'))
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -572,6 +578,7 @@ def get_ads():
 
     return ads
 
+
 def num_message():
     count = 0
     if 'username' in session:
@@ -584,6 +591,12 @@ def num_message():
     return count
 
 
+def cart_count():
+    count = 0
+    if 'cart' in session:
+        for item in session['cart']:
+            count+=1
+    return count
 
 if __name__ == '__main__':
     app.jinja_env.cache = {}

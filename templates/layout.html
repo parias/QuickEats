@@ -93,7 +93,11 @@
          <li role="presentation"><a href="/home">Home</a></li>
 			<li role="presentation"><a href="/menu">Menu</a></li>
 			<li role="presentation"><a href="/orders/">Orders</a></li>
+         {% if cart_num > 0 %}
+         <li role="presentation"><a href="/cart/">Cart ({{cart_num}})</a></li>
+         {% else %}
 			<li role="presentation"><a href="/cart/">Cart</a></li>
+         {% endif %}
          {% if num_message > 0 %}
          <li role="presentation"><a href="/messages/">Messages ({{num_message}})</a></li>
          {% else %}
