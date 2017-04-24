@@ -414,6 +414,11 @@ def process():
     expiration = request.form['expiry'].split('/')
     cvc = request.form['cvc']
 
+    if int(expiration[0]) < 1 or int(expiration[0]) > 12:
+        return render_template('credit_error.html')
+    if int(expiration[1]) < 2017 or int(expiration[1]) > 2025:
+        return render_template('credit_error.html')
+
     if name == '' or cc_num == '' or len(expiration) != 2 or expiration[1] == '' or cvc == '': 
         return render_template('credit_error.html')
     """
@@ -437,7 +442,7 @@ def process():
                 'paid':True,
                 'date':datetime.now()
             })
-
+        session['cart'] = []
         return redirect('/orders/')
     else:
         # Anonymous Customer
@@ -455,6 +460,7 @@ def process():
                 'paid':True,
                 'date':datetime.now()
             })
+        session['cart'] = []
         return redirect('/menu/')
 
     return render_template('credit_error.html')
