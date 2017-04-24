@@ -11,9 +11,10 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-table.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-table-zh-CN.js') }}"></script>
-    
-         <link rel="stylesheet" href="../static/css/bootstrap.css">
-      <link rel="stylesheet" href="../static/css/bootstrap-table.css">
+    <link rel="stylesheet" href="../static/css/bootstrap_mod.css"> 
+    <link rel="stylesheet" href="../static/css/bootstrap-table.css"> 
+
+   
         <style> 
       .container{
         width: 60%;
@@ -301,10 +302,7 @@
       </ul>
    </div>
 </header>
- <link rel="stylesheet" href="../static/css/bootstrap.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-table.css"> 
-
-
+ 
 <body>
   <div class="slideshow">
   {% for key, value in ads[1].items() %}
