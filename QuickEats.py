@@ -22,7 +22,7 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return render_template('home.html', ads=get_ads(), num_message=num_message(), cart_num=cart_count())
+        return render_template('home_page.html', ads=get_ads(), num_message=num_message(), cart_num=cart_count())
     return render_template('index.html', ads=get_ads(), num_message=num_message(), cart_num=cart_count())
 
 
@@ -149,7 +149,7 @@ def register():
 @app.route('/home/')
 def home(username=None):
     if 'username' in session:
-        return render_template('home.html', username=session['username'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
+        return render_template('home_page.html', username=session['username'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
     else:
         return redirect('/')
 
@@ -598,9 +598,16 @@ def cart_count():
             count+=1
     return count
 
+
+@app.route('/home_page')
+def home_page():
+    return render_template('home_page.html', ads=get_ads(), num_message=num_message(), cart_num=cart_count())
+
+
 if __name__ == '__main__':
     app.jinja_env.cache = {}
     # SSL Connection
     context = ('server.crt', 'server.key')
+    #app.run(host='127.0.0.1',debug=True)
     #app.run(host='0.0.0.0',debug=True, ssl_context=context)
     app.run(host='127.0.0.1', debug=True, ssl_context=context)
