@@ -12,9 +12,8 @@
 		<script src="{{ url_for('static', filename='js/bootstrap-table.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/bootstrap-table-zh-CN.js') }}"></script>
 
-         <link rel="stylesheet" href="../static/css/bootstrap.css">
-         <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-               <link rel="stylesheet" href="../static/css/bootstrap-table.css">
+      <link rel="stylesheet" href="../static/css/bootstrap_mod.css">
+      <link rel="stylesheet" href="../static/css/bootstrap-table.css">
       <style> 
          .center-pills {
             display: flex;
@@ -30,7 +29,27 @@
 				width: 100%;
 				height:10%;
 			}
-			h2 {
+			h3 {
+				color: white;
+				position: absolute;
+				top: 70%;
+				left: 1%;
+				width: 100%;
+				font: 6px/12px Helvetica, Sans-Serif;
+			}
+			h3 span { 
+				color: white;
+				font: bold 12px/14px Helvetica, Sans-Serif;
+				letter-spacing: 1px;
+				background: rgb(0, 0, 0);
+				background: rgba(0, 0, 0, 0.7);
+				padding: 1px;
+			}
+			h3 span.spacer {
+				padding: 0 10px;
+				background: none;
+			}
+         h2 {
 				color: white;
 				position: absolute;
 				bottom: 1%;
@@ -135,5 +154,8 @@
    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </body>
-
 </html>
+<div class="image">
+   <img src="{{ url_for('static', filename='img/QuickEats.png') }}" alt=""  width="100%" height="100">
+   <h3 class="strokeme">&copy; Copyright 2017 by QuickEats LLC</h3>
+</div>

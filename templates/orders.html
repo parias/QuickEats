@@ -22,8 +22,8 @@
       </thead>
       {% for key, value in orders.items() %}
       <tr id="tr-id-1" class="tr-class-1">
-         <td id="td-id-1" class="td-class-1">{{ value['entree'] }}</td>
-         <td>{{ value['cost'] }}</td>
+         <td id="td-id-1" class="td-class-1">{{ value['entree'] }} ({{value['count']}})</td>
+         <td>{{ value['cost']}}</td>
          <td>{{value['requested_delivery']}}</td>
          <td><a class="btn btn-primary" href="/deliver/{{key}}" onClick="alert('{{value['entree']}} Will be Delivered')">Request Delivery</a></td>
       </tr>
@@ -36,6 +36,7 @@
       <thead>
          <tr>
             <th>Menu Item</th>
+            <th>User Name</th>
             <th>Address</th>
             <th>Deliver</th>
          </tr>
@@ -43,6 +44,7 @@
       {% for key, value in orders.items() %}
       <tr id="tr-id-1" class="tr-class-1">
          <td id="td-id-1" class="td-class-1">{{ value['entree'] }}</td>
+         <td>{{ value['username'] }}</td>
          <td>{{ value['address'] }}</td>
          <td><a class="btn btn-primary" href="/complete_order/{{key}}" onClick="alert('{{value['entree']}} delivery has been completed')">Complete</a></td>
       </tr>
@@ -80,8 +82,8 @@
       </thead>
       {% for key, value in orders.items() %}
       <tr id="tr-id-1" class="tr-class-1">
-         <td id="td-id-1" class="td-class-1">{{ value['entree'] }}</td>
-         <td>{{ value['cost'] }}</td>
+         <td id="td-id-1" class="td-class-1">{{ value['entree'] }} ({{value['count']}})</td>
+         <td>{{ '%0.2f' | format(value['cost']|float * value['count']|float) }}</td>
          <td>{{ value['date_time'] }}</td>
       </tr>
       {% endfor %}

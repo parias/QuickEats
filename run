@@ -1,0 +1,2 @@
+gunicorn QuickEats:app -b 0.0.0.0 --keyfile server.key --certfile server.crt --ssl-version 2
+Python3 QuickEats.app

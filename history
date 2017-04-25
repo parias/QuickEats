@@ -1,0 +1,485 @@
+    1  cat /etc/networks
+    2  cat /etc/network/i
+    3  ls -lah /etc/NetworkManager/system-connections/LLNL-GREEN 
+    4  rm -rf /etc/NetworkManager/system-connections/LLNL-GREEN 
+    5  ls -lah /etc/NetworkManager/system-connections/LLNL-GREEN 
+    6  service netowrk stop
+    7  service network stop
+    8  service networking stop
+    9  service networking start
+   10  exit
+   11  reboot
+   12  apt-get update
+   13  apt-get upgrade
+   14  apt-get install kali-linux-all
+   15  dd
+   16  df
+   17  reboot
+   18  df
+   19  du
+   20  df -h
+   21  shutdown -h now
+   22  df -h
+   23  fdisk -uc /dev/root
+   24  fdisk -uc /dev
+   25  fdisk -uc /dev/
+   26  fdisk -uc /dev/mmcblk0
+   27  fdisk -uc /dev/mmcblk0
+   28  reboot
+   29  df -h
+   30  resize2fs /dev/mmcblk0p2 
+   31  df -h
+   32  apt-get install kali-linux-all
+   33  dpkg -- configure -a
+   34  dpkg -- configure -a kali-linux-all
+   35  apt-get install kali-linux-all
+   36  apt-get update kali-linux-all
+   37  reboot
+   38  df -h
+   39  apt-get update
+   40  dpkg --configure -a
+   41  apt-get update
+   42  apt-get upgrade
+   43  apt-get upgrade -f
+   44  apt-get update
+   45  apt-get upgrade
+   46  apt-get install ppp
+   47  wget "http://www.sakis3g.com/downloads/sakis3g.tar.gz" -O sakis3g.tar.gz
+   48  tar -xzvf sakis3g.tar.gz 
+   49  chmod +x sakis3g
+   50  ./sakis3g --interactive
+   51  ./sakis3g --interactive
+   52  ./sakis3g --interactive
+   53  ./sakis3g --interactive
+   54  nano /etc/sakis3g.conf
+   55  ifconfig
+   56  ifconfig 
+   57  ifconfig 
+   58  ifconfig 
+   59  ifup wwan0
+   60  ifup enxb827ebf868f1
+   61  ifdown enxb827ebf868f1
+   62  ifdown wlan0
+   63  ifconfig -a
+   64  lsusb
+   65  apt-get install usb-modeswitch
+   66  nano /etc/network/interfaces
+   67  reboot
+   68  ifconfig -a
+   69  ifconfig -a
+   70  ifconfig -a
+   71  ifconfig -a
+   72  ifconfig -a
+   73  ifconfig 
+   74  ifconfig -a
+   75  df
+   76  cat /etc/modprobe.d/blacklist-libnfc.conf 
+   77  nano /etc/modprobe.d/raspi-blacklist.conf
+   78  reboot
+   79  sudo shutdown -h now
+   80  sudo shutdown -h now
+   81  sudo shutdown -h now
+   82  sudo shutdown -h now
+   83  sudo service ssh stop
+   84  sudo shutdown -h now
+   85  sudo service ssh stop
+   86  sudo shutdown -h now
+   87  python
+   88  python
+   89  sudo apt-get install ufonet
+   90  sudo apt-get install chromium
+   91  sudo apt-get install chromium-installer
+   92  sudo apt-get install chromium-install
+   93  sudo apt-get install chromium-browser
+   94  powerwash
+   95  shutdown -i
+   96  uname 0r
+   97  uname -r
+   98  uname
+   99  uname -h
+  100  jobs -ps 
+  101  bgffb
+  102  ls
+  103  cd //
+  104  cd ..
+  105  cd ~
+  106  ls
+  107  cd ..
+  108  ping 4.2.2.1
+  109  ls
+  110  file outfile_decoded 
+  111  xxd outfile_decoded | head
+  112  binwalk
+  113  sudo apt-get install binwalk
+  114  ls
+  115  binwalk outfile_decoded 
+  116  grep outfile_decoded "flag"
+  117  grep outfile_decoded -i "flag"
+  118  grep -i "flag" outfile_decoded
+  119  grep -i "galf" outfile_decoded
+  120  xxd outfile_decoded 
+  121  string outfile_decoded 
+  122  strings outfile_decoded 
+  123  strings outfile_decoded | head
+  124  strings outfile_decoded | less
+  125  strings outfile_decoded | 100
+  126  vim 100
+  127  xxd 100
+  128  ls
+  129  xxd outfile_decoded 
+  130  ls
+  131  xxd outfile_decoded
+  132  xxd outfile_decoded | less
+  133  ls
+  134  python
+  135  sudo pip install xortool
+  136  pytohn
+  137  python
+  138  nano solve.py
+  139  ls
+  140  binwalk outfile_decoded 
+  141  xxd outfile_decoded | less
+  142  nano solve.py
+  143  mkdir out
+  144  nano solve.py
+  145  python
+  146  nano solve.py
+  147  python solve.py
+  148  nano solve.py
+  149  python solve.py
+  150  nano solve.py
+  151  python solve.py
+  152  pkill python
+  153  python solve.py
+  154  nano solve.py
+  155  python solve.py
+  156  ls
+  157  ls -la
+  158  nano solve.py
+  159  python solve.py
+  160  ls
+  161  cd out
+  162  ls
+  163  cd ..
+  164  ls
+  165  nano solve.py
+  166  python solve.py
+  167  ls
+  168  cd out
+  169  ls
+  170  binwalk 1.out
+  171  grep -i "JPEG" .
+  172  grep -ir "JPEG" .
+  173  grep -ir "JPEG" .
+  174  xxd 201.out
+  175  cd ..
+  176  xxd outfile_decoded | head
+  177  ls
+  178  cd out
+  179  xxd outfile_decoded | flag
+  180  grep -ir "flag" .
+  181  cd ..
+  182  ls
+  183  python
+  184  nano solve.py
+  185  sudo apt-get install vimn
+  186  sudo apt-get install vim
+  187  vim solve_2.py
+  188  python solve_2.py
+  189  vim solve_2.py
+  190  python solve_2.py
+  191  vim solve_2.py
+  192  python
+  193  vim solve_2.py
+  194  python solve_2.py
+  195  ls
+  196  xxd outfile_decypted | head
+  197  xxd outfile_decrypted | head
+  198  xxd outfile_decrypted | less
+  199  binwalk outfile_decrypted 
+  200  vim solve_2.py
+  201  vim solve_2.py
+  202  vim solve_2.py
+  203  python
+  204  vim solve_2.py
+  205  python solve_2.py
+  206  vim solve_2.py
+  207  python solve_2.py
+  208  xxd outfile_decrypted | xxd
+  209  xxd outfile_decrypted | head
+  210  xxd outfile_decrypted | strings
+  211  string outfile_decrypted 
+  212  strings outfile_decrypted 
+  213  vim solve_2.py
+  214  python solve_2.py
+  215  strings outfile_decrypted 
+  216  xxd outfile_decrypted | strings
+  217  binwalk outfile_decrypted 
+  218  vim solve_2.py
+  219  python solve_2.py
+  220  binwalk outfile_decrypted 
+  221  vim solve_2.py
+  222  python
+  223  ls
+  224  xxd outfile | head;
+  225  xxd outfile_decoded | head;
+  226  python
+  227  xxd outfile_decoded | less
+  228  python
+  229  vim solve
+  230  vim solve_2.py
+  231  python solve_2.py
+  232  ls
+  233  xxd outfile_decrypted | xxd
+  234  xxd outfile_decrypted | head
+  235  xxd outfile_decrypted | less
+  236  cat outfile_decrypted | grep -i "flag"
+  237  xxd outfile_decrypted | xxd
+  238  xxd outfile_decrypted | less
+  239  sudo apt-get install python-pip
+  240  sudo pip install xortool
+  241  xortool
+  242  xortool --help
+  243  xortool -l 21 outfile_decoded
+  244  xortool -l 21 -b outfile_decoded
+  245  tshark
+  246  sudo apt-get install tshark
+  247  cd ~/Desktop
+  248  tshark -r protoleak.pcap -T fields -e data > outfile
+  249  ls
+  250  xxd outfile
+  251  xxd outfile 100
+  252  xxd outfile | head
+  253  vim solve.py
+  254  nano solve.py
+  255  python
+  256  ent
+  257  sudo apt-get install ent
+  258  ent --help
+  259  ent outfile_decoded
+  260  xxd outfile_decoded | less
+  261  xxd outfile_decoded | less
+  262  xxd outfile_decoded | less
+  263  python
+  264  ls
+  265  vim solve_2.py
+  266  python solve_2.py
+  267  ls
+  268  xxd outfile_decrypted
+  269  xxd outfile_decrypted | head
+  270  ls
+  271  binwalk outfile_decrypted
+  272  ls
+  273  vim solve_2.py
+  274  python solve_2.py
+  275  xxd outfile_decrypted | head
+  276  xxd outfile_decrypted | less
+  277  ls
+  278  vim solve_2.py
+  279  python
+  280  ls
+  281  vim solve_2.py
+  282  vim solve_2.py
+  283  python solve_2.py
+  284  xxd outfile_decrypted | less
+  285  string outfile_decrypted
+  286  strings outfile_decrypted
+  287  strings outfile_decrypted | less
+  288  binwalk outfile_decrypted
+  289  ls
+  290  vim solve.py
+  291  vim solve_2.py
+  292  strings outfile_decrypted | less
+  293  xxd outfile_decrypted | less
+  294  string outfile_decrypted
+  295  strings outfile_decrypted
+  296  strings outfile_decrypted | less
+  297  strings outfile_decrypted | less
+  298  xxd outfile_decrypted | less
+  299  xxd outfile_decoded | less
+  300  xxd outfile_decrypted | less
+  301  python
+  302  vim solve_2.py
+  303  python solve
+  304  python solve_2.py
+  305  xxd outfile_decrypted | less
+  306  binwalk outfile_decrypted
+  307  ls
+  308  binwalk outfile_decrypted -e
+  309  ls
+  310  binwalk --help
+  311  binwalk -e outfile_decrypted
+  312  ls
+  313  ls -la
+  314  binwalk -e outfile_decrypted
+  315  binwalk -D "JPEG image data, JFIF standard 1.01, thumbnail -103x64":.jpg outfile_decrypted
+  316  ls
+  317  sudo binwalk -e outfile_decrypted
+  318  ls
+  319  sudo binwalk -e outfile_decrypted
+  320  vim solve_2.py
+  321  python solve_2.py
+  322  vim solve_2.py
+  323  python solve_2.py
+  324  xxd outfile_decrypted | less
+  325  vim solve_2.py
+  326  python solve_2.py
+  327  xxd outfile_decrypted | less
+  328  vim solve_2.py
+  329  python solve_2.py
+  330  xxd outfile_decrypted | less
+  331  xxd outfile_decrypted | less
+  332  python
+  333  ls
+  334  xxd out.jpg | less
+  335  ls
+  336  file out.jpg
+  337  vim solve_2.py
+  338  python spolve_2.py
+  339  python solve_2.py
+  340  file outfile.jpg
+  341  vim solve_2.py
+  342  python solve_2.py
+  343  vim solve_2.py
+  344  file outfile.jpg
+  345  vim solve_2.py
+  346  python solve_2.py
+  347  vim solve_2.py
+  348  python solve_2.py
+  349  file outfile.jpg
+  350  vim solve_2.py
+  351  python
+  352  vim solve_2.py
+  353  python solve_2.py
+  354  file outfile.jpg
+  355  vim solve_2.py
+  356  python solve_2.py
+  357  file outfile.jpg
+  358  cat outfile.jpg | grep -i "flag"
+  359  binwalk outfile.jpg
+  360  sudo apt-get install jpegsnoop
+  361  file outfile.jpg
+  362  vim solve_2.py
+  363  file outfile.jpg
+  364  vim solve_2.py
+  365  xxd outfile.jpg | less
+  366  python solve_2.py
+  367  python
+  368  vim solve_2.py
+  369  python solve_2.py
+  370  xxd outfile.jpg | less
+  371  vim solve_2.py
+  372  python solve_2.py
+  373  xxd outfile.jpg | less
+  374  python
+  375  vim solve_2.py
+  376  ls
+  377  python
+  378  vim solve_2.py
+  379  python solve_2.py
+  380  vim solve_2.py
+  381  python solve_2.py
+  382  vim solve_2.py
+  383  python solve_2.py
+  384  file outfile.jpg
+  385  vim solve_2.py
+  386  python
+  387  vim solve_2.py
+  388  python solve_2.py
+  389  ls
+  390  file outfile.jpg
+  391  vim solve_2.py
+  392  python solve_2.py
+  393  vim solve_2.py
+  394  python solve_2.py
+  395  vim solve_2.py
+  396  python solve_2.py
+  397  file outfile.jpg
+  398  aRp1Ch4ll3nge#2
+  399  ls
+  400  cat outfile.jpg | grep -i "flag"
+  401  xxd outfile.jpg | less
+  402  cat outfile.jpg | grep -i "galf"
+  403  cat outfile.jpg | grep -i "flag"
+  404  binwalk outfile.jpg
+  405  cat outfile.jpg | grep -i "import"
+  406  cat outfile.jpg | grep -i "py"
+  407  cat outfile.jpg | grep -i "python"
+  408  cat outfile.jpg | grep -i ".py"
+  409  cat outfile.jpg | grep ".py"
+  410  cat outfile.jpg | grep ".py"
+  411  vim outfile.jpg
+  412  cat outfile.jpg | grep "\.py"
+  413  vi
+  414  history
+  415  sudo su
+  416  history
+  417  clear
+  418  scapy
+  419  python
+  420  python3
+  421  python
+  422  python3
+  423  edb
+  424  wireshark
+  425  pip install scapy
+  426  pip install --upgrade pip
+  427  sudo apt update
+  428  sudo apt update
+  429  sudo apt upgrade
+  430  sudo shutdown -h now
+  431  sudo shutdown -h now
+  432  print hello
+  433  eth0
+  434  reboot
+  435  sudo shutdown -h now
+  436  ifconfig -a
+  437  sudo rpi-update
+  438  iw wlan0 scan
+  439  ifconfig wlan0 up
+  440  lspci
+  441  lsusb
+  442  man lsusb
+  443  airmon-ng
+  444  iwconfig
+  445  vim /etc/NetworkManager/NetworkManager.conf 
+  446  reboot
+  447  ping www.google.com
+  448  iwlan
+  449  iwconfig
+  450  ifconfig wlan0 up
+  451  ifconfig -a
+  452  iwconfig
+  453  man lsusb
+  454  lsusb
+  455  apt-get update
+  456  apt-get dist-upgrade
+  457  reboot
+  458  ping www.google.com
+  459  ping www.google.com
+  460  ping www.google.com
+  461  ping www.google.com
+  462  ping www.google.com
+  463  ping www.google.com
+  464  ping www.google.com
+  465  ping www.google.com
+  466  ping www.google.com
+  467  ping www.google.com
+  468  ping www.google.com
+  469  ping www.google.com
+  470  ping www.google.com
+  471  reboot
+  472  ifconfig -a
+  473  ifconfig -a
+  474  ifconfig -a
+  475  ifconfig -a
+  476  ifconfig -a
+  477  ifconfig
+  478  history > history
+
+answer 
+modprobe brcmfmac
+Restart networking
+$ sudo service network-manager restart
+or
+$ sudo service networking restart

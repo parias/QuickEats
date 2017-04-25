@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, session, redirect
+from flask import Flask, jsonify, render_template, url_for, request, session, redirect
 from collections import Counter, defaultdict
 from datetime import datetime, date, time
 from bson.objectid import ObjectId
@@ -198,11 +198,13 @@ def orders():
                 orders.update({
                     order_id: {
                         'entree':item['entree'],
+                        'username':item['username'],
                         'address':item['address'],
                         'cost':item['cost'],
                         'restaurant':item['restaurant'],
                         'requested_delivery':item['requested_delivery'],
-                        'completed':item['completed']
+                        'completed':item['completed'],
+                        'count':item['count']
                     }
                 })
                 
@@ -219,10 +221,13 @@ def orders():
                         'address':item['address'],
                         'cost':item['cost'],
                         'restaurant':item['restaurant'],
-                        'completed':item['completed']
+                        'completed':item['completed'],
+                        'count':item['count'],
+                        'username':item['username']
                     }
                 })
                     
+            #return jsonify(orders)
             return render_template('orders.html', orders=orders, user_type=user['user_type'], ads=get_ads(), num_message=num_message(), cart_num=cart_count())
         
         # If Investigator, shows all Completed Orders
@@ -261,7 +266,8 @@ def orders():
                     'address':item['address'],
                     'cost':item['cost'],
                     'completed':item['completed'],
-                    'date_time':str(date_time)
+                    'date_time':str(date_time),
+                    'count':item['count']
                 }
             })
         return render_template('orders.html', orders=orders, ads=get_ads(), num_message=num_message(), cart_num=cart_count())
@@ -427,23 +433,26 @@ def process():
     orders = mongo.db.orders
 
     if 'username' in session:
-        user = mongo.db.users.find_one({'username': session['username']})
-        
-        for key, value in cart.items():
-            orders.insert({
-                'username':session['username'],
-                'entree':key,
-                'address':user['address'], 
-                'cost':value['cost'],
-                'count':value['count'],
-                'restaurant':value['restaurant'],
-                'completed':False,
-                'requested_delivery':False,
-                'paid':True,
-                'date':datetime.now()
-            })
-        session['cart'] = []
-        return redirect('/orders/')
+        if session['user_type'] == 'patron':
+            user = mongo.db.users.find_one({'username': session['username']})
+            
+            for key, value in cart.items():
+                orders.insert({
+                    'username':session['username'],
+                    'entree':key,
+                    'address':user['address'], 
+                    'cost':value['cost'],
+                    'count':value['count'],
+                    'restaurant':value['restaurant'],
+                    'completed':False,
+                    'requested_delivery':False,
+                    'paid':True,
+                    'date':datetime.now()
+                })
+            session['cart'] = []
+            return redirect('/orders/')
+        else:
+            return render_template('address_error.html')
     else:
         # Anonymous Customer
         # Need to have user add Address
@@ -612,8 +621,7 @@ def home_page():
 
 if __name__ == '__main__':
     app.jinja_env.cache = {}
-    # SSL Connection
     context = ('server.crt', 'server.key')
     #app.run(host='127.0.0.1',debug=True)
-    #app.run(host='0.0.0.0',debug=True, ssl_context=context)
-    app.run(host='127.0.0.1', debug=True, ssl_context=context)
+    app.run(host='0.0.0.0',debug=True, ssl_context=context)
+    #app.run(host='127.0.0.1', debug=True, ssl_context=context, threaded=True)
