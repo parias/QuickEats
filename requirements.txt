@@ -21,7 +21,7 @@ idna==2.5
 isbnlib==3.5.8
 iso3166==0.7
 itsdangerous==0.24
-Jinja2==2.9.5
+Jinja2==2.11.3
 MarkupSafe==1.0
 matplotlib==2.0.0
 numpy==1.12.0
