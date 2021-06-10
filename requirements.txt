@@ -4,7 +4,7 @@ blinker==1.4
 captain-pycard==0.9.10
 cffi==1.10.0
 click==6.7
-cryptography==1.8.1
+cryptography==3.3.2
 cycler==0.10.0
 dnspython==1.15.0
 dnspython3==1.15.0
